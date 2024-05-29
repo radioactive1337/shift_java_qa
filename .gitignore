@@ -5,7 +5,14 @@ build/
 !**/src/test/**/build/
 
 ### IntelliJ IDEA ###
+<<<<<<< HEAD
 .idea
+=======
+.idea/modules.xml
+.idea/jarRepositories.xml
+.idea/compiler.xml
+.idea/libraries/
+>>>>>>> 5595566d730500f4973e2ccfb1ba5c09ba971501
 *.iws
 *.iml
 *.ipr
