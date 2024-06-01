@@ -5,6 +5,7 @@ import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
 import com.consol.citrus.testng.spring.TestNGCitrusSpringSupport;
 import org.springframework.http.MediaType;
+import org.testng.Assert;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 
@@ -17,11 +18,16 @@ public class DeleteDuckTests extends TestNGCitrusSpringSupport {
     @Test(description = "Проверка удаления утки")
     @CitrusTest
     public void deleteDuckTest1(@Optional @CitrusResource TestCaseRunner runner) {
+        //  создаем утку
         createDuck(runner, "yellow", 2.2, "rubber", "quack", "ACTIVE");
+        //  получаем id созданной утки
         getDuckId(runner);
-        deleteDuck(runner, "${duckId}");
+        //  удаляем утку
+        deleteDuck(runner);
+        //  проверяем ответ
         validateResponse(runner, 200, "Duck is deleted");
-        //get duck
+        //  проверяем в бд
+        checkInDb(runner);
     }
 
     //  создание утки
@@ -40,13 +46,26 @@ public class DeleteDuckTests extends TestNGCitrusSpringSupport {
     }
 
     //  удаление утки
-    public void deleteDuck(TestCaseRunner runner, String id) {
+    public void deleteDuck(TestCaseRunner runner) {
         runner.$(http().client("http://localhost:2222")
                 .send()
                 .delete("/api/duck/delete")
+                .queryParam("id", "${duckId}")
+        );
+    }
+
+    //  проверка отсутствия утки в бд
+    public void checkInDb(TestCaseRunner runner) {
+        runner.$(http().client("http://localhost:2222")
+                .send()
+                .get("/api/duck/getAllIds")
+        );
+        runner.$(http().client("http://localhost:2222")
+                .receive()
+                .response()
                 .message()
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .queryParam("id", id)
+                .validate(((message, testContext) -> Assert.assertFalse(message.getPayload().toString().contains("${duckId}"))))
         );
     }
 

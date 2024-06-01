@@ -16,14 +16,18 @@ public class CreateDuckTests extends TestNGCitrusSpringSupport {
     @Test(description = "Проверка создания утки с material = rubber ")
     @CitrusTest
     public void createDuckTest1(@Optional @CitrusResource TestCaseRunner runner) {
+        //  создаем утку
         createDuck(runner, "green", 1.1, "rubber", "quack", "ACTIVE");
+        //  проверяем ответ
         validateResponse(runner, 200, "green", 1.1, "rubber", "quack", "ACTIVE");
     }
 
     @Test(description = "Проверка создания утки с material = wood ")
     @CitrusTest
     public void createDuckTest2(@Optional @CitrusResource TestCaseRunner runner) {
+        //  создаем утку
         createDuck(runner, "green", 1.1, "wood", "quack", "ACTIVE");
+        //  проверяем ответ
         validateResponse(runner, 200, "green", 1.1, "wood", "quack", "ACTIVE");
     }
 

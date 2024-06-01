@@ -17,22 +17,34 @@ public class UpdateDuckTests extends TestNGCitrusSpringSupport {
     @Test(description = "Проверка обновления цвета и высоты утки")
     @CitrusTest
     public void updateDuckTest1(@Optional @CitrusResource TestCaseRunner runner) {
+        //  создаем утку
         createDuck(runner, "yellow", 1.1, "rubber", "quack", "ACTIVE");
+        //  получаем id созданной утки
         getDuckId(runner);
+        //  обновляем 2 поля
         updateDuck(runner, "rainbow", "9.9", "${duckId}", "rubber", "quack");
+        //  проверяем ответ
         validateResponse(runner, 200, "${duckId}");
-        getDuckProps(runner, "${duckId}");
+        //  получаем пропсы обновленный утки
+        getDuckProps(runner);
+        //  проверяем ответ
         validateDuckResponse(runner, 200, "rainbow", 9.9, "rubber", "quack");
     }
 
     @Test(description = "Проверка обновления цвета и звука утки")
     @CitrusTest
     public void updateDuckTest2(@Optional @CitrusResource TestCaseRunner runner) {
+        //  создаем утку
         createDuck(runner, "yellow", 1.1, "rubber", "quack", "ACTIVE");
+        //  получаем id созданной утки
         getDuckId(runner);
+        //  обновляем 2 поля
         updateDuck(runner, "green", "1.1", "${duckId}", "rubber", "mew");
+        //  проверяем ответ
         validateResponse(runner, 200, "${duckId}");
-        getDuckProps(runner, "${duckId}");
+        //  получаем пропсы обновленный утки
+        getDuckProps(runner);
+        //  проверяем ответ
         validateDuckResponse(runner, 200, "green", 1.1, "rubber", "mew");
     }
 
@@ -57,8 +69,6 @@ public class UpdateDuckTests extends TestNGCitrusSpringSupport {
         runner.$(http().client("http://localhost:2222")
                 .send()
                 .put("/api/duck/update")
-                .message()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .queryParam("color", color)
                 .queryParam("height", height)
                 .queryParam("id", id)
@@ -68,13 +78,11 @@ public class UpdateDuckTests extends TestNGCitrusSpringSupport {
     }
 
     //  получение свойств утки
-    public void getDuckProps(TestCaseRunner runner, String id) {
+    public void getDuckProps(TestCaseRunner runner) {
         runner.$(http().client("http://localhost:2222")
                 .send()
                 .get("/api/duck/action/properties")
-                .message()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .queryParam("id", id)
+                .queryParam("id", "${duckId}")
         );
     }
 
