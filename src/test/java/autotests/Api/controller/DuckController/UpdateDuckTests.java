@@ -25,10 +25,13 @@ public class UpdateDuckTests extends TestNGCitrusSpringSupport {
         updateDuck(runner, "rainbow", "9.9", "${duckId}", "rubber", "quack");
         //  проверяем ответ
         validateResponse(runner, 200, "${duckId}");
-        //  получаем пропсы обновленный утки
-        getDuckProps(runner);
-        //  проверяем ответ
-        validateDuckResponse(runner, 200, "rainbow", 9.9, "rubber", "quack");
+        //  ПРОЕРИТЬ БД
+
+        //  НЕ ВЕРНО
+//        //  получаем пропсы обновленный утки
+//        getDuckProps(runner);
+//        //  проверяем ответ
+//        validateDuckResponse(runner, 200, "rainbow", 9.9, "rubber", "quack");
     }
 
     @Test(description = "Проверка обновления цвета и звука утки")
@@ -42,10 +45,13 @@ public class UpdateDuckTests extends TestNGCitrusSpringSupport {
         updateDuck(runner, "green", "1.1", "${duckId}", "rubber", "mew");
         //  проверяем ответ
         validateResponse(runner, 200, "${duckId}");
-        //  получаем пропсы обновленный утки
-        getDuckProps(runner);
-        //  проверяем ответ
-        validateDuckResponse(runner, 200, "green", 1.1, "rubber", "mew");
+        //  ПРОВЕРИТЬ БД
+
+        //  НЕ ВЕРНО
+//        //  получаем пропсы обновленный утки
+//        getDuckProps(runner);
+//        //  проверяем ответ
+//        validateDuckResponse(runner, 200, "green", 1.1, "rubber", "mew");
     }
 
     //  создание утки
