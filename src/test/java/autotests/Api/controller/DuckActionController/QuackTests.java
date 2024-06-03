@@ -20,7 +20,7 @@ public class QuackTests extends TestNGCitrusSpringSupport {
 
     @Test(description = "Проверка кряканья с четным id")
     @CitrusTest
-    public void quackTest1(@Optional @CitrusResource TestCaseRunner runner) {
+    public void quackEvenDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  создаем утку с четным id
         createEvenDuck(runner, "green", 1.1, "wood", "quack", "ACTIVE");
         //  крякаем
@@ -31,7 +31,7 @@ public class QuackTests extends TestNGCitrusSpringSupport {
 
     @Test(description = "Проверка кряканья с нечетным id")
     @CitrusTest
-    public void quackTest2(@Optional @CitrusResource TestCaseRunner runner) {
+    public void quackOddDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  создаем утку с нечетным id
         createOddDuck(runner, "green", 1.1, "rubber", "quack", "ACTIVE");
         //  крякаем

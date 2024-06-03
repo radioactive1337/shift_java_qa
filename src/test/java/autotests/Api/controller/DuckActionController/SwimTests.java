@@ -15,7 +15,7 @@ import static com.consol.citrus.http.actions.HttpActionBuilder.http;
 public class SwimTests extends TestNGCitrusSpringSupport {
     @Test(description = "Проверка swim с существующим id")
     @CitrusTest
-    public void swimDuckTest1(@Optional @CitrusResource TestCaseRunner runner) {
+    public void swimExistedDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  создаем утку
         createDuck(runner, "yellow", 1.1, "rubber", "quack", "ACTIVE");
         //  получаем id созданной утки
@@ -28,7 +28,7 @@ public class SwimTests extends TestNGCitrusSpringSupport {
 
     @Test(description = "Проверка swim с несуществующим id")
     @CitrusTest
-    public void swimDuckTest2(@Optional @CitrusResource TestCaseRunner runner) {
+    public void swimNotExistedDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  плаваем
         swimDuck(runner, "666");
         //  проверяем ответ

@@ -20,7 +20,7 @@ public class PropertiesTests extends TestNGCitrusSpringSupport {
 
     @Test(description = "Проверка получения свойств с четным id и материалом wood")
     @CitrusTest
-    public void getPropsTest1(@Optional @CitrusResource TestCaseRunner runner) {
+    public void getEvenWoodenDuckPropsTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  создаем утку с четным id
         createEvenDuck(runner, "green", 1.1, "wood", "quack", "ACTIVE");
         //  получаем ее свойства
@@ -31,7 +31,7 @@ public class PropertiesTests extends TestNGCitrusSpringSupport {
 
     @Test(description = "Проверка получения свойств с нечетным id и материалом rubber")
     @CitrusTest
-    public void getPropsTest2(@Optional @CitrusResource TestCaseRunner runner) {
+    public void getOddRubberDuckPropsTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  создаем утку с нечетным id
         createOddDuck(runner, "green", 1.1, "rubber", "quack", "ACTIVE");
         //  получаем ее свойства

@@ -16,7 +16,7 @@ public class UpdateDuckTests extends TestNGCitrusSpringSupport {
 
     @Test(description = "Проверка обновления цвета и высоты утки")
     @CitrusTest
-    public void updateDuckTest1(@Optional @CitrusResource TestCaseRunner runner) {
+    public void updateColorAndHeightDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  создаем утку
         createDuck(runner, "yellow", 1.1, "rubber", "quack", "ACTIVE");
         //  получаем id созданной утки
@@ -25,7 +25,7 @@ public class UpdateDuckTests extends TestNGCitrusSpringSupport {
         updateDuck(runner, "rainbow", "9.9", "${duckId}", "rubber", "quack");
         //  проверяем ответ
         validateResponse(runner, 200, "${duckId}");
-        //  ПРОЕРИТЬ БД
+        //  ПРОВЕРИТЬ БД
 
         //  НЕ ВЕРНО
 //        //  получаем пропсы обновленный утки
@@ -36,7 +36,7 @@ public class UpdateDuckTests extends TestNGCitrusSpringSupport {
 
     @Test(description = "Проверка обновления цвета и звука утки")
     @CitrusTest
-    public void updateDuckTest2(@Optional @CitrusResource TestCaseRunner runner) {
+    public void updateColorAndSoundDuckTest (@Optional @CitrusResource TestCaseRunner runner) {
         //  создаем утку
         createDuck(runner, "yellow", 1.1, "rubber", "quack", "ACTIVE");
         //  получаем id созданной утки

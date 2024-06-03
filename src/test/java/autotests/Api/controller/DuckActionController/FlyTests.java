@@ -16,7 +16,7 @@ public class FlyTests extends TestNGCitrusSpringSupport {
 
     @Test(description = "Проверка fly с существующим id с активными крыльями")
     @CitrusTest
-    public void flyDuckTest1(@Optional @CitrusResource TestCaseRunner runner) {
+    public void flyActiveDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  создаем утку
         createDuck(runner, "yellow", 1.1, "rubber", "quack", "ACTIVE");
         //  получаем id созданной утки
@@ -29,7 +29,7 @@ public class FlyTests extends TestNGCitrusSpringSupport {
 
     @Test(description = "Проверка fly с существующим id со связанными крыльями")
     @CitrusTest
-    public void flyDuckTest2(@Optional @CitrusResource TestCaseRunner runner) {
+    public void flyFixedDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  создаем утку
         createDuck(runner, "yellow", 1.1, "rubber", "quack", "FIXED");
         //  получаем id созданной утки
@@ -42,7 +42,7 @@ public class FlyTests extends TestNGCitrusSpringSupport {
 
     @Test(description = "Проверка fly с существующим id с крыльями в неопределенном состоянии")
     @CitrusTest
-    public void flyDuckTest3(@Optional @CitrusResource TestCaseRunner runner) {
+    public void flyUndefinedDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  создаем утку
         createDuck(runner, "yellow", 1.1, "rubber", "quack", "UNDEFINED");
         //  получаем id созданной утки

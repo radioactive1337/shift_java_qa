@@ -17,7 +17,7 @@ public class DeleteDuckTests extends TestNGCitrusSpringSupport {
 
     @Test(description = "Проверка удаления утки")
     @CitrusTest
-    public void deleteDuckTest1(@Optional @CitrusResource TestCaseRunner runner) {
+    public void deleteDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  создаем утку
         createDuck(runner, "yellow", 2.2, "rubber", "quack", "ACTIVE");
         //  получаем id созданной утки
