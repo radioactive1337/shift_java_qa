@@ -16,7 +16,7 @@ public class PropertiesTests extends DuckActionsClient {
         //  создаем утку с четным id
         createEvenDuck(runner, "green", 1.1, "wood", "quack", "ACTIVE");
         //  получаем ее свойства
-        getDuckProps(runner);
+        getDuckProps(runner, "${duckId}");
         //  проверяем ответ
         validateDuckResponse(runner, 200, "green", 1.1, "wood", "quack", "ACTIVE");
     }
@@ -27,7 +27,7 @@ public class PropertiesTests extends DuckActionsClient {
         //  создаем утку с нечетным id
         createOddDuck(runner, "green", 1.1, "rubber", "quack", "ACTIVE");
         //  получаем ее свойства
-        getDuckProps(runner);
+        getDuckProps(runner, "${duckId}");
         //  проверяем ответ
         validateDuckResponse(runner, 200, "green", 1.1, "wood", "quack", "ACTIVE");
     }

@@ -54,20 +54,20 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
     }
 
     //  удаление утки
-    public void deleteDuck(TestCaseRunner runner) {
+    public void deleteDuck(TestCaseRunner runner, String id) {
         runner.$(http().client("http://localhost:2222")
                 .send()
                 .delete("/api/duck/delete")
-                .queryParam("id", "${duckId}")
+                .queryParam("id", id)
         );
     }
 
     //  лететь
-    public void flyDuck(TestCaseRunner runner) {
+    public void flyDuck(TestCaseRunner runner, String id) {
         runner.$(http().client("http://localhost:2222")
                 .send()
                 .get("/api/duck/action/fly")
-                .queryParam("id", "${duckId}")
+                .queryParam("id", id)
         );
     }
 
@@ -81,22 +81,22 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
     }
 
     //  получение свойств утки
-    public void getDuckProps(TestCaseRunner runner) {
+    public void getDuckProps(TestCaseRunner runner, String id) {
         runner.$(http().client("http://localhost:2222")
                 .send()
                 .get("/api/duck/action/properties")
-                .queryParam("id", "${duckId}")
+                .queryParam("id", id)
         );
     }
 
     //  крякать
-    public void quackDuck(TestCaseRunner runner) {
+    public void quackDuck(TestCaseRunner runner, String id, String repetitionCount, String soundCount) {
         runner.$(http().client("http://localhost:2222")
                 .send()
                 .get("/api/duck/action/quack")
-                .queryParam("id", "${duckId}")
-                .queryParam("repetitionCount", "1")
-                .queryParam("soundCount", "1")
+                .queryParam("id", id)
+                .queryParam("repetitionCount", repetitionCount)
+                .queryParam("soundCount", soundCount)
         );
     }
 

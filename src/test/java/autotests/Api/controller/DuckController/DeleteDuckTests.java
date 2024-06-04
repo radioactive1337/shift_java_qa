@@ -17,7 +17,7 @@ public class DeleteDuckTests extends DuckActionsClient {
         //  получаем id созданной утки
         getDuckId(runner);
         //  удаляем утку
-        deleteDuck(runner);
+        deleteDuck(runner, "${duckId}");
         //  проверяем ответ
         validateMessageResponse(runner, 200, "Duck is deleted");
         //  проверяем в бд

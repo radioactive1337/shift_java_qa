@@ -15,7 +15,7 @@ public class QuackTests extends DuckActionsClient {
         //  создаем утку с четным id
         createEvenDuck(runner, "green", 1.1, "wood", "quack", "ACTIVE");
         //  крякаем
-        quackDuck(runner);
+        quackDuck(runner, "${duckId}", "1", "1");
         //  проверка ответа
         validateSoundResponse(runner, 200, "quack");
     }
@@ -26,7 +26,7 @@ public class QuackTests extends DuckActionsClient {
         //  создаем утку с нечетным id
         createOddDuck(runner, "green", 1.1, "rubber", "quack", "ACTIVE");
         //  крякаем
-        quackDuck(runner);
+        quackDuck(runner, "${duckId}", "1", "1");
         //  проверка ответа
         validateSoundResponse(runner, 200, "quack");
     }
