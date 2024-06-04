@@ -19,7 +19,7 @@ public class FlyTests extends DuckActionsClient {
         //  летаем
         flyDuck(runner, "${duckId}");
         //  проверяем ответ
-        validateMessageResponse(runner, 200, "I am flying :)");
+        validateMessageResponse(runner, 200, "I am flying");
     }
 
     @Test(description = "Проверка fly с существующим id со связанными крыльями")
@@ -32,7 +32,7 @@ public class FlyTests extends DuckActionsClient {
         //  летаем
         flyDuck(runner, "${duckId}");
         //  проверяем ответ
-        validateMessageResponse(runner, 200, "I can not fly :C");
+        validateMessageResponse(runner, 200, "I can not fly");
     }
 
     @Test(description = "Проверка fly с существующим id с крыльями в неопределенном состоянии")
@@ -45,7 +45,7 @@ public class FlyTests extends DuckActionsClient {
         //  летаем
         flyDuck(runner, "${duckId}");
         //  проверяем ответ
-        validateMessageResponse(runner, 200, "Wings are not detected :(");
+        validateMessageResponse(runner, 200, "Wings are not detected");
     }
 
 }
