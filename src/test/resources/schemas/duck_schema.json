@@ -1,0 +1,31 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "number"
+    },
+    "color": {
+      "type": "string"
+    },
+    "height": {
+      "type": "number"
+    },
+    "material": {
+      "type": "string"
+    },
+    "sound": {
+      "type": "string"
+    },
+    "wingsState": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "color",
+    "height",
+    "material",
+    "sound",
+    "wingsState"
+  ]
+}

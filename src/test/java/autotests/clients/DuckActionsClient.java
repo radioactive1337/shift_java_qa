@@ -23,7 +23,9 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
 
     public boolean even;
 
-    //  создание утки
+    /**
+     * создание утки
+     */
     public void createDuck(TestCaseRunner runner, String color, double height, String material, String sound, String wingsState) {
         runner.$(http().client(yellowDuckService)
                 .send()
@@ -39,7 +41,9 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    //  обновление утки
+    /**
+     * обновление утки
+     */
     public void updateDuck(TestCaseRunner runner, String color, String height, String id, String material, String sound, String wingsState) {
         runner.$(http().client(yellowDuckService)
                 .send()
@@ -53,7 +57,9 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    //  удаление утки
+    /**
+     * удаление утки
+     */
     public void deleteDuck(TestCaseRunner runner, String id) {
         runner.$(http().client("http://localhost:2222")
                 .send()
@@ -62,7 +68,9 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    //  лететь
+    /**
+     * лететь
+     */
     public void flyDuck(TestCaseRunner runner, String id) {
         runner.$(http().client("http://localhost:2222")
                 .send()
@@ -71,7 +79,9 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    //  плыть
+    /**
+     * плыть
+     */
     public void swimDuck(TestCaseRunner runner, String id) {
         runner.$(http().client("http://localhost:2222")
                 .send()
@@ -80,7 +90,9 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    //  получение свойств утки
+    /**
+     * получение свойств утки
+     */
     public void getDuckProps(TestCaseRunner runner, String id) {
         runner.$(http().client("http://localhost:2222")
                 .send()
@@ -89,7 +101,9 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    //  крякать
+    /**
+     * крякать
+     */
     public void quackDuck(TestCaseRunner runner, String id, String repetitionCount, String soundCount) {
         runner.$(http().client("http://localhost:2222")
                 .send()
@@ -100,7 +114,9 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    //  создание нечетной
+    /**
+     * создание нечетной утки
+     */
     public void createOddDuck(TestCaseRunner runner, String color, double height, String material, String sound, String wingsState) {
         runner.$(http().client("http://localhost:2222")
                 .send()
@@ -135,7 +151,9 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         }
     }
 
-    //  создание четной
+    /**
+     * создание четной утки
+     */
     public void createEvenDuck(TestCaseRunner runner, String color, double height, String material, String sound, String wingsState) {
         runner.$(http().client("http://localhost:2222")
                 .send()
@@ -170,7 +188,9 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         }
     }
 
-    //  проверка отсутствия утки в бд
+    /**
+     * проверка отсутствия утки в бд
+     */
     public void checkInDb(TestCaseRunner runner) {
         runner.$(http().client("http://localhost:2222")
                 .send()
@@ -185,7 +205,9 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    //  получение id утки
+    /**
+     * получение id утки
+     */
     public void getDuckId(TestCaseRunner runner) {
         runner.$(http().client(yellowDuckService)
                 .receive()
@@ -196,7 +218,9 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    //  проверка ответа (сообщение)
+    /**
+     * проверка ответа (сообщение)
+     */
     public void validateMessageResponse(TestCaseRunner runner, int statusCode, String message) {
         runner.$(http().client("http://localhost:2222")
                 .receive()
@@ -208,7 +232,9 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    //  проверка ответа (тело утки)
+    /**
+     * проверка ответа (тело утки)
+     */
     public void validateDuckResponse(TestCaseRunner runner, int statusCode, String color, double height, String material, String sound, String wingsState) {
         runner.$(http().client(yellowDuckService)
                 .receive()
@@ -224,7 +250,9 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    //  проверка ответа (звук)
+    /**
+     * проверка ответа (звук)
+     */
     public void validateSoundResponse(TestCaseRunner runner, int statusCode, String sound) {
         runner.$(http().client("http://localhost:2222")
                 .receive()

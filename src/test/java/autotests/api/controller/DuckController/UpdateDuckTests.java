@@ -18,9 +18,9 @@ public class UpdateDuckTests extends DuckActionsClient {
         getDuckId(runner);
         //  обновляем 2 поля
         updateDuck(runner, "rainbow", "9.9", "${duckId}", "rubber", "quack", "ACTIVE");
-//        //  проверяем ответ
+        //  проверяем ответ
         validateMessageResponse(runner, 200, "Duck with id = ${duckId} is updated");
-//        //  CHECK DB --->
+        //  CHECK DB --->
     }
 
     @Test(description = "Проверка обновления цвета и звука утки")
@@ -32,9 +32,9 @@ public class UpdateDuckTests extends DuckActionsClient {
         getDuckId(runner);
         //  обновляем 2 поля
         updateDuck(runner, "green", "1.1", "${duckId}", "rubber", "mew", "ACTIVE");
-//        //  проверяем ответ
+        //  проверяем ответ
         validateMessageResponse(runner, 200, "Duck with id = ${duckId} is updated");
-//        //  CHECK DB --->
+        //  CHECK DB --->
     }
 
 }

@@ -20,8 +20,9 @@ public class DeleteDuckTests extends DuckActionsClient {
         deleteDuck(runner, "${duckId}");
         //  проверяем ответ
         validateMessageResponse(runner, 200, "Duck is deleted");
-        //  проверяем в бд
+        //  проверяем в бд L
         checkInDb(runner);
+        //  CHECK DB --->
     }
 
 }
