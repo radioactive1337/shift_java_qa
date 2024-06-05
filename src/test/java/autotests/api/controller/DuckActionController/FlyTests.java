@@ -1,4 +1,4 @@
-package autotests.Api.controller.DuckActionController;
+package autotests.api.controller.DuckActionController;
 
 import autotests.clients.DuckActionsClient;
 import com.consol.citrus.TestCaseRunner;
