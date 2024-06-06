@@ -1,5 +1,7 @@
 package autotests.api.controller.DuckController;
 
+import autotests.payloads.Duck;
+import autotests.payloads.WingsState;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
@@ -13,18 +15,22 @@ public class CreateDuckTests extends DuckActionsClient {
     @CitrusTest
     public void createRubberDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  создаем утку
-        createDuck(runner, "green", 1.1, "rubber", "quack", "ACTIVE");
+        Duck duck = new Duck().color("green").height(1.1).material("rubber").sound("quack").wingsState(WingsState.ACTIVE);
+        createDuck(runner, duck);
         //  проверяем ответ
-        validateDuckResponse(runner, 200, "green", 1.1, "rubber", "quack", "ACTIVE");
+        validateResponseByClass(runner, 200, new Duck().color("green").height(1.1).material("rubber").sound("quack").wingsState(WingsState.ACTIVE));
+        //        + 2 validation
     }
 
     @Test(description = "Проверка создания утки с material = wood ")
     @CitrusTest
     public void createWoodenDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  создаем утку
-        createDuck(runner, "green", 1.1, "wood", "quack", "ACTIVE");
+        Duck duck = new Duck().color("green").height(1.1).material("wood").sound("quack").wingsState(WingsState.ACTIVE);
+        createDuck(runner, duck);
         //  проверяем ответ
-        validateDuckResponse(runner, 200, "green", 1.1, "wood", "quack", "ACTIVE");
+        validateResponseByClass(runner, 200, new Duck().color("green").height(1.1).material("wood").sound("quack").wingsState(WingsState.ACTIVE));
+//        + 2 validation
     }
 
 }

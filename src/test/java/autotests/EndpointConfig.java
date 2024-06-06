@@ -12,4 +12,5 @@ public class EndpointConfig {
                 .requestUrl("http://localhost:2222")
                 .build();
     }
+
 }

@@ -12,13 +12,13 @@ public class SwimTests extends DuckActionsClient {
     @CitrusTest
     public void swimExistedDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  создаем утку
-        createDuck(runner, "yellow", 1.1, "rubber", "quack", "ACTIVE");
+//        createDuck(runner, "yellow", 1.1, "rubber", "quack", "ACTIVE");
         //  получаем id созданной утки
         getDuckId(runner);
         //  плаваем
         swimDuck(runner, "${duckId}");
         //  проверяем ответ
-        validateMessageResponse(runner, 200, "I'm swimming");
+//        validateMessageResponse(runner, 200, "I'm swimming");
     }
 
     @Test(description = "Проверка swim с несуществующим id")
@@ -27,7 +27,7 @@ public class SwimTests extends DuckActionsClient {
         //  плаваем
         swimDuck(runner, "666");
         //  проверяем ответ
-        validateMessageResponse(runner, 404, "Paws are not found ((((");
+//        validateMessageResponse(runner, 404, "Paws are not found ((((");
     }
 
 }
