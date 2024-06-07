@@ -31,8 +31,15 @@ public class CreateDuckTests extends DuckActionsClient {
         createDuck(runner, duck);
 
         //  проверяем ответ
-        Duck expectedPayload = new Duck().id("@isNumber()@").color("green").height(1.1).material("wood").sound("quack").wingsState(WingsState.ACTIVE);
-        validateResponseByClass(runner, 200, expectedPayload);
+        String expectedString = "{\n" +
+                "  \"id\": \"@isNumber()@\",\n" +
+                "  \"color\": \"green\",\n" +
+                "  \"height\": 1.1,\n" +
+                "  \"material\": \"wood\",\n" +
+                "  \"sound\": \"quack\",\n" +
+                "  \"wingsState\": \"ACTIVE\"\n" +
+                "}";
+        validateResponseByString(runner, 200, expectedString);
     }
 
 }
