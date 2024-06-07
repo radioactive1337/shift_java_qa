@@ -1,6 +1,8 @@
 package autotests.api.controller.DuckActionController;
 
 import autotests.clients.DuckActionsClient;
+import autotests.payloads.Duck;
+import autotests.payloads.WingsState;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
@@ -13,22 +15,27 @@ public class QuackTests extends DuckActionsClient {
     @CitrusTest
     public void quackEvenDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  создаем утку с четным id
-        createEvenDuck(runner, "green", 1.1, "wood", "quack", "ACTIVE");
+        Duck duck = new Duck().color("green").height(1.1).material("rubber").sound("quack").wingsState(WingsState.ACTIVE);
+        createEvenDuck(runner, duck);
         //  крякаем
         quackDuck(runner, "${duckId}", "1", "1");
         //  проверка ответа
-//        validateSoundResponse(runner, 200, "quack");
+        String expectedString = "{\n" +
+                "  \"sound\": \"quack\"\n" +
+                "}";
+        validateResponseByString(runner, 200, expectedString);
     }
 
     @Test(description = "Проверка кряканья с нечетным id")
     @CitrusTest
     public void quackOddDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  создаем утку с нечетным id
-        createOddDuck(runner, "green", 1.1, "rubber", "quack", "ACTIVE");
+        Duck duck = new Duck().color("green").height(1.1).material("rubber").sound("quack").wingsState(WingsState.ACTIVE);
+        createOddDuck(runner, duck);
         //  крякаем
         quackDuck(runner, "${duckId}", "1", "1");
         //  проверка ответа
-//        validateSoundResponse(runner, 200, "quack");
+        validateResponseByJson(runner, 200, "test_responses/quackTest/quackOddDuckResponse.json");
     }
 
 }
