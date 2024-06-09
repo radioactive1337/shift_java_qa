@@ -35,7 +35,7 @@ public class CreateDuckTests extends DuckActionsClient {
         validateResponseByClass(runner, 200, expectedPayload);
 
         //  проверяем в бд
-        databaseQueryAndValidateDuck(runner, "${duckId}", color, height, material, sound, wingsState);
+        databaseValidateDuck(runner, "${duckId}", color, height, material, sound, wingsState);
     }
 
     @Test(description = "Проверка создания утки с material = wood")
@@ -65,7 +65,7 @@ public class CreateDuckTests extends DuckActionsClient {
         validateResponseByString(runner, 200, expectedString);
 
         //  проверяем в бд
-        databaseQueryAndValidateDuck(runner, "${duckId}", color, height, material, sound, wingsState);
+        databaseValidateDuck(runner, "${duckId}", color, height, material, sound, wingsState);
     }
 
 }

@@ -6,7 +6,6 @@ import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.message.builder.ObjectMappingPayloadBuilder;
 import com.consol.citrus.testng.spring.TestNGCitrusSpringSupport;
 import com.consol.citrus.http.client.HttpClient;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.qameta.allure.Step;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,8 +108,8 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    @Step("получение и валидация данных утки из бд")
-    public void databaseQueryAndValidateDuck(TestCaseRunner runner, String id, String color, double height, String material, String sound, WingsState wingsState) {
+    @Step("валидация данных утки в бд")
+    public void databaseValidateDuck(TestCaseRunner runner, String id, String color, double height, String material, String sound, WingsState wingsState) {
         runner.$(
                 query(db)
                         .statement("select * from duck where id = " + id)
@@ -122,7 +121,7 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    @Step("получение и валидация данных по одному полю из бд")
+    @Step("валидация данных по одному полю в бд")
     public void databaseQueryAndValidate(TestCaseRunner runner, String sql, String column, String... values) {
         runner.$(
                 query(db)
@@ -131,6 +130,7 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
+    @Step("получение и зпись id в переменную из бд")
     public void writeIdFromDb(TestCaseRunner runner, String sql) {
         runner.$(
                 query(db)
@@ -143,8 +143,10 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
     public void clearDB(TestCaseRunner runner, String duckId) {
         runner.$(
                 doFinally()
-                        .actions(sql(db)
-                                .statement("delete from duck where id=" + duckId))
+                        .actions(
+                                sql(db)
+                                        .statement("delete from duck where id=" + duckId)
+                        )
         );
     }
 

@@ -34,7 +34,7 @@ public class UpdateDuckTests extends DuckActionsClient {
                 "}");
 
         //  проверяем в бд
-        databaseQueryAndValidateDuck(runner, "${duckId}", "rainbow", 9.9, "rubber", "quack", WingsState.ACTIVE);
+        databaseValidateDuck(runner, "${duckId}", "rainbow", 9.9, "rubber", "quack", WingsState.ACTIVE);
     }
 
     @Test(description = "Проверка обновления цвета и звука утки")
@@ -53,7 +53,7 @@ public class UpdateDuckTests extends DuckActionsClient {
         validateResponseByClass(runner, 200, new Message().message(expectedMessage));
 
         //  проверяем в бд
-        databaseQueryAndValidateDuck(runner, "${duckId}", "rainbow", 1.1, "rubber", "mew", WingsState.ACTIVE);
+        databaseValidateDuck(runner, "${duckId}", "rainbow", 1.1, "rubber", "mew", WingsState.ACTIVE);
     }
 
 }
