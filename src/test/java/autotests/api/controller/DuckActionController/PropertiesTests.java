@@ -17,7 +17,7 @@ public class PropertiesTests extends DuckActionsClient {
     @CitrusTest
     public void getEvenWoodenDuckPropsTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  создаем утку с четным id + очитска бд в конце теста
-        runner.variable("duckId", "citrus:randomNumber(3, false)1");
+        runner.variable("duckId", "citrus:randomNumber(4, false)1");
         clearDB(runner, "${duckId}");
         databaseUpdate(runner, "insert into duck values (${duckId}, 'green', 1.1, 'wood', 'quack', 'ACTIVE')");
 
@@ -32,7 +32,7 @@ public class PropertiesTests extends DuckActionsClient {
     @CitrusTest
     public void getOddRubberDuckPropsTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  создаем утку с нечетным id + очитска бд в конце теста
-        runner.variable("duckId", "citrus:randomNumber(3, false)2");
+        runner.variable("duckId", "citrus:randomNumber(4, false)2");
         clearDB(runner, "${duckId}");
         databaseUpdate(runner, "insert into duck values (${duckId}, 'green', 1.1, 'rubber', 'quack', 'ACTIVE')");
 

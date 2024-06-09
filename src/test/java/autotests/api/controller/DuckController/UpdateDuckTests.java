@@ -20,7 +20,7 @@ public class UpdateDuckTests extends DuckActionsClient {
     @CitrusTest
     public void updateColorAndHeightDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  создаем утку + очитска бд в конце теста
-        runner.variable("duckId", "citrus:randomNumber(3, false)");
+        runner.variable("duckId", "citrus:randomNumber(4, false)");
         clearDB(runner, "${duckId}");
         databaseUpdate(runner, "insert into duck values (${duckId}, 'green', 1.1, 'rubber', 'quack', 'ACTIVE')");
 
@@ -34,14 +34,14 @@ public class UpdateDuckTests extends DuckActionsClient {
                 "}");
 
         //  проверяем в бд
-        databaseQueryAndValidateDuck(runner, "rainbow", 9.9, "rubber", "quack", WingsState.ACTIVE);
+        databaseQueryAndValidateDuck(runner, "${duckId}", "rainbow", 9.9, "rubber", "quack", WingsState.ACTIVE);
     }
 
     @Test(description = "Проверка обновления цвета и звука утки")
     @CitrusTest
     public void updateColorAndSoundDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  создаем утку + очитска бд в конце теста
-        runner.variable("duckId", "citrus:randomNumber(3, false)");
+        runner.variable("duckId", "citrus:randomNumber(4, false)");
         clearDB(runner, "${duckId}");
         databaseUpdate(runner, "insert into duck values (${duckId}, 'green', 1.1, 'rubber', 'quack', 'ACTIVE')");
 
@@ -53,7 +53,7 @@ public class UpdateDuckTests extends DuckActionsClient {
         validateResponseByClass(runner, 200, new Message().message(expectedMessage));
 
         //  проверяем в бд
-        databaseQueryAndValidateDuck(runner, "rainbow", 1.1, "rubber", "mew", WingsState.ACTIVE);
+        databaseQueryAndValidateDuck(runner, "${duckId}", "rainbow", 1.1, "rubber", "mew", WingsState.ACTIVE);
     }
 
 }

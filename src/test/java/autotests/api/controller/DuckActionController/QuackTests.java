@@ -17,7 +17,7 @@ public class QuackTests extends DuckActionsClient {
     @CitrusTest
     public void quackEvenDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  создаем утку с четным id + очитска бд в конце теста
-        runner.variable("duckId", "citrus:randomNumber(3, false)2");
+        runner.variable("duckId", "citrus:randomNumber(4, false)2");
         clearDB(runner, "${duckId}");
         databaseUpdate(runner, "insert into duck values (${duckId}, 'green', 1.1, 'rubber', 'quack', 'ACTIVE')");
 
@@ -35,7 +35,7 @@ public class QuackTests extends DuckActionsClient {
     @CitrusTest
     public void quackOddDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  создаем утку с нечетным id + очитска бд в конце теста
-        runner.variable("duckId", 123);
+        runner.variable("duckId", 12345);
         clearDB(runner, "${duckId}");
         databaseUpdate(runner, "insert into duck values (${duckId}, 'green', 1.1, 'rubber', 'quack', 'ACTIVE')");
 

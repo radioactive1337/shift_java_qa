@@ -18,7 +18,7 @@ public class FlyTests extends DuckActionsClient {
     @CitrusTest
     public void flyActiveDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  создаем утку + очитска бд в конце теста
-        runner.variable("duckId", "citrus:randomNumber(3, false)");
+        runner.variable("duckId", "citrus:randomNumber(4, false)");
         clearDB(runner, "${duckId}");
         databaseUpdate(runner, "insert into duck values (${duckId}, 'green', 1.1, 'rubber', 'quack', 'ACTIVE')");
 
@@ -33,8 +33,7 @@ public class FlyTests extends DuckActionsClient {
     @CitrusTest
     public void flyFixedDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  создаем утку + очитска бд в конце теста
-        runner.variable("duckId", "citrus:randomNumber(3, false)");
-        //  очитска бд в конце теста
+        runner.variable("duckId", "citrus:randomNumber(4, false)");
         clearDB(runner, "${duckId}");
         databaseUpdate(runner, "insert into duck values (${duckId}, 'green', 1.1, 'rubber', 'quack', 'FIXED')");
 
@@ -52,8 +51,7 @@ public class FlyTests extends DuckActionsClient {
     @CitrusTest
     public void flyUndefinedDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  создаем утку + очитска бд в конце теста
-        runner.variable("duckId", "citrus:randomNumber(3, false)");
-        //  очитска бд в конце теста
+        runner.variable("duckId", "citrus:randomNumber(4, false)");
         clearDB(runner, "${duckId}");
         databaseUpdate(runner, "insert into duck values (${duckId}, 'green', 1.1, 'rubber', 'quack', 'UNDEFINED')");
 

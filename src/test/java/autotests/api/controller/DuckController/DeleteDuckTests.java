@@ -18,7 +18,7 @@ public class DeleteDuckTests extends DuckActionsClient {
     @CitrusTest
     public void deleteDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  создаем утку + очитска бд в конце теста
-        runner.variable("duckId", "citrus:randomNumber(3, false)");
+        runner.variable("duckId", "citrus:randomNumber(4, false)");
         clearDB(runner, "${duckId}");
         databaseUpdate(runner, "insert into duck values (${duckId}, 'red', 1.1, 'wood', 'quack', 'ACTIVE')");
 
@@ -29,7 +29,7 @@ public class DeleteDuckTests extends DuckActionsClient {
         validateResponseByJson(runner, 200, "test_responses/deleteDuckTest/deleteDuckResponse.json");
 
         //  проверяем бд
-        databaseQueryAndValidate(runner, "select count(*) as ducks_count from duck", "ducks_count", "0");
+        databaseQueryAndValidate(runner, "select count(*) as ducks_count from duck where id = ${duckId}", "ducks_count", "0");
     }
 
 }

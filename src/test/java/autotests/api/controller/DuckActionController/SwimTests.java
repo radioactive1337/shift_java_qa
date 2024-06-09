@@ -16,7 +16,7 @@ public class SwimTests extends DuckActionsClient {
     @CitrusTest
     public void swimExistedDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  создаем утку + очитска бд в конце теста
-        runner.variable("duckId", "citrus:randomNumber(3, false)");
+        runner.variable("duckId", "citrus:randomNumber(4, false)");
         clearDB(runner, "${duckId}");
         databaseUpdate(runner, "insert into duck values (${duckId}, 'green', 1.1, 'rubber', 'quack', 'ACTIVE')");
 

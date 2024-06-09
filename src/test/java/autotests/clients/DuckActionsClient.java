@@ -18,7 +18,6 @@ import org.springframework.test.context.ContextConfiguration;
 import static com.consol.citrus.actions.ExecuteSQLAction.Builder.sql;
 import static com.consol.citrus.actions.ExecuteSQLQueryAction.Builder.query;
 import static com.consol.citrus.container.FinallySequence.Builder.doFinally;
-import static com.consol.citrus.dsl.MessageSupport.MessageBodySupport.fromBody;
 import static com.consol.citrus.http.actions.HttpActionBuilder.http;
 
 @ContextConfiguration(classes = {EndpointConfig.class})
@@ -111,10 +110,10 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
     }
 
     @Step("получение и валидация данных утки из бд")
-    public void databaseQueryAndValidateDuck(TestCaseRunner runner, String color, double height, String material, String sound, WingsState wingsState) {
+    public void databaseQueryAndValidateDuck(TestCaseRunner runner, String id, String color, double height, String material, String sound, WingsState wingsState) {
         runner.$(
                 query(db)
-                        .statement("select * from duck where id = ${duckId}")
+                        .statement("select * from duck where id = " + id)
                         .validate("COLOR", color)
                         .validate("HEIGHT", String.valueOf(height))
                         .validate("MATERIAL", material)
@@ -142,17 +141,10 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
 
     @Step("очистка бд")
     public void clearDB(TestCaseRunner runner, String duckId) {
-        runner.$(doFinally().actions(sql(db).statement("delete from duck where id=" + duckId)));
-    }
-
-    @Step("получение id утки из ответа")
-    public void getDuckId(TestCaseRunner runner) {
-        runner.$(http().client(yellowDuckService)
-                .receive()
-                .response()
-                .message()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .extract(fromBody().expression("$.id", "duckId"))
+        runner.$(
+                doFinally()
+                        .actions(sql(db)
+                                .statement("delete from duck where id=" + duckId))
         );
     }
 
