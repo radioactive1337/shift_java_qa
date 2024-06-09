@@ -132,6 +132,14 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
+    public void writeIdFromDb(TestCaseRunner runner, String sql) {
+        runner.$(
+                query(db)
+                        .statement(sql)
+                        .extract("id", "duckId")
+        );
+    }
+
     @Step("очистка бд")
     public void clearDB(TestCaseRunner runner, String duckId) {
         runner.$(doFinally().actions(sql(db).statement("delete from duck where id=" + duckId)));

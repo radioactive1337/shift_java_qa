@@ -24,20 +24,18 @@ public class CreateDuckTests extends DuckActionsClient {
         String sound = "quack";
         WingsState wingsState = WingsState.ACTIVE;
 
-        //  создаем утку
+        //  запрос на создание утки + очистка бд после теста
         Duck duck = new Duck().color(color).height(height).material(material).sound(sound).wingsState(wingsState);
         createDuck(runner, duck);
+        writeIdFromDb(runner, "select * from duck");
+        clearDB(runner, "${duckId}");
 
         //  проверяем ответ
         Duck expectedPayload = new Duck().id("@isNumber()@").color(color).height(height).material(material).sound(sound).wingsState(wingsState);
         validateResponseByClass(runner, 200, expectedPayload);
 
         //  проверяем в бд
-        getDuckId(runner);
         databaseQueryAndValidateDuck(runner, color, height, material, sound, wingsState);
-
-        //  очитска бд
-        clearDB(runner, "${duckId}");
     }
 
     @Test(description = "Проверка создания утки с material = wood")
@@ -49,9 +47,11 @@ public class CreateDuckTests extends DuckActionsClient {
         String sound = "quack";
         WingsState wingsState = WingsState.ACTIVE;
 
-        //  создаем утку
+        //  запрос на создание утки + очистка бд после теста
         Duck duck = new Duck().color(color).height(height).material(material).sound(sound).wingsState(wingsState);
         createDuck(runner, duck);
+        writeIdFromDb(runner, "select * from duck");
+        clearDB(runner, "${duckId}");
 
         //  проверяем ответ
         String expectedString = "{\n" +
@@ -64,11 +64,8 @@ public class CreateDuckTests extends DuckActionsClient {
                 "}";
         validateResponseByString(runner, 200, expectedString);
 
-        getDuckId(runner);
+        //  проверяем в бд
         databaseQueryAndValidateDuck(runner, color, height, material, sound, wingsState);
-
-        //  очитска бд
-        clearDB(runner, "${duckId}");
     }
 
 }
