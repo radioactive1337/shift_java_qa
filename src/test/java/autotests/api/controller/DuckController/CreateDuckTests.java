@@ -19,7 +19,7 @@ public class CreateDuckTests extends DuckActionsClient {
     @CitrusTest
     public void createRubberDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
         String color = "green";
-        double height = 1.1;
+        double height = 1.12;
         String material = "rubber";
         String sound = "quack";
         WingsState wingsState = WingsState.ACTIVE;
@@ -27,7 +27,7 @@ public class CreateDuckTests extends DuckActionsClient {
         //  запрос на создание утки + очистка бд после теста
         Duck duck = new Duck().color(color).height(height).material(material).sound(sound).wingsState(wingsState);
         createDuck(runner, duck);
-        writeIdFromDb(runner, "select * from duck");
+        writeIdFromDb(runner, "select * from duck where height = " + height);
         clearDB(runner, "${duckId}");
 
         //  проверяем ответ
@@ -42,7 +42,7 @@ public class CreateDuckTests extends DuckActionsClient {
     @CitrusTest
     public void createWoodenDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
         String color = "green";
-        double height = 1.1;
+        double height = 1.123;
         String material = "wood";
         String sound = "quack";
         WingsState wingsState = WingsState.ACTIVE;
@@ -50,14 +50,14 @@ public class CreateDuckTests extends DuckActionsClient {
         //  запрос на создание утки + очистка бд после теста
         Duck duck = new Duck().color(color).height(height).material(material).sound(sound).wingsState(wingsState);
         createDuck(runner, duck);
-        writeIdFromDb(runner, "select * from duck");
+        writeIdFromDb(runner, "select * from duck where height = " + height);
         clearDB(runner, "${duckId}");
 
         //  проверяем ответ
         String expectedString = "{\n" +
                 "  \"id\": \"@isNumber()@\",\n" +
                 "  \"color\": \"green\",\n" +
-                "  \"height\": 1.1,\n" +
+                "  \"height\": 1.123,\n" +
                 "  \"material\": \"wood\",\n" +
                 "  \"sound\": \"quack\",\n" +
                 "  \"wingsState\": \"ACTIVE\"\n" +

@@ -30,9 +30,9 @@ dependencies {
 
 test {
     useTestNG() {
-//        parallel = "classes"
-//        threadCount 3
-//        useDefaultListeners = true
+        parallel = "classes"
+        threadCount 3
+        useDefaultListeners = true
     }
 
     testLogging {
