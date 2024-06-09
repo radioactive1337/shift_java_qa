@@ -1,40 +1,48 @@
 package autotests.api.controller.DuckActionController;
 
 import autotests.clients.DuckActionsClient;
-import autotests.payloads.Duck;
-import autotests.payloads.WingsState;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 
+@Epic("Duck action controller")
+@Feature("/api/duck/action/quack")
 public class QuackTests extends DuckActionsClient {
 
-    @Test(description = "РџСЂРѕРІРµСЂРєР° РєСЂСЏРєР°РЅСЊСЏ СЃ С‡РµС‚РЅС‹Рј id")
+    @Test(description = "Проверка кряканья с четным id")
     @CitrusTest
     public void quackEvenDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
-        //  СЃРѕР·РґР°РµРј СѓС‚РєСѓ СЃ С‡РµС‚РЅС‹Рј id
-        Duck duck = new Duck().color("green").height(1.1).material("rubber").sound("quack").wingsState(WingsState.ACTIVE);
-        createEvenDuck(runner, duck);
-        //  РєСЂСЏРєР°РµРј
+        //  создаем утку с четным id + очитска бд в конце теста
+        runner.variable("duckId", "citrus:randomNumber(3, false)2");
+        clearDB(runner, "${duckId}");
+        databaseUpdate(runner, "insert into duck values (${duckId}, 'green', 1.1, 'rubber', 'quack', 'ACTIVE')");
+
+        //  крякаем
         quackDuck(runner, "${duckId}", "1", "1");
-        //  РїСЂРѕРІРµСЂРєР° РѕС‚РІРµС‚Р°
+
+        //  проверка ответа
         String expectedString = "{\n" +
                 "  \"sound\": \"quack\"\n" +
                 "}";
         validateResponseByString(runner, 200, expectedString);
     }
 
-    @Test(description = "РџСЂРѕРІРµСЂРєР° РєСЂСЏРєР°РЅСЊСЏ СЃ РЅРµС‡РµС‚РЅС‹Рј id")
+    @Test(description = "Проверка кряканья с нечетным id")
     @CitrusTest
     public void quackOddDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
-        //  СЃРѕР·РґР°РµРј СѓС‚РєСѓ СЃ РЅРµС‡РµС‚РЅС‹Рј id
-        Duck duck = new Duck().color("green").height(1.1).material("rubber").sound("quack").wingsState(WingsState.ACTIVE);
-        createOddDuck(runner, duck);
-        //  РєСЂСЏРєР°РµРј
+        //  создаем утку с нечетным id + очитска бд в конце теста
+        runner.variable("duckId", 123);
+        clearDB(runner, "${duckId}");
+        databaseUpdate(runner, "insert into duck values (${duckId}, 'green', 1.1, 'rubber', 'quack', 'ACTIVE')");
+
+        //  крякаем
         quackDuck(runner, "${duckId}", "1", "1");
-        //  РїСЂРѕРІРµСЂРєР° РѕС‚РІРµС‚Р°
+
+        //  проверка ответа
         validateResponseByJson(runner, 200, "test_responses/quackTest/quackOddDuckResponse.json");
     }
 

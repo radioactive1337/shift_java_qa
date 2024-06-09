@@ -1,50 +1,43 @@
 package autotests.api.controller.DuckActionController;
 
 import autotests.clients.DuckActionsClient;
-import autotests.payloads.Duck;
-import autotests.payloads.WingsState;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
-import com.consol.citrus.context.TestContext;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 
+@Epic("Duck action controller")
+@Feature("/api/duck/action/swim")
 public class SwimTests extends DuckActionsClient {
-    @Test(description = "РџСЂРѕРІРµСЂРєР° swim СЃ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёРј id")
+    @Test(description = "Проверка swim с существующим id")
     @CitrusTest
     public void swimExistedDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
-        //  СЃРѕР·РґР°РµРј СѓС‚РєСѓ
-        Duck duck = new Duck().color("green").height(1.1).material("rubber").sound("quack").wingsState(WingsState.ACTIVE);
-        createDuck(runner, duck);
+        //  создаем утку + очитска бд в конце теста
+        runner.variable("duckId", "citrus:randomNumber(3, false)");
+        clearDB(runner, "${duckId}");
+        databaseUpdate(runner, "insert into duck values (${duckId}, 'green', 1.1, 'rubber', 'quack', 'ACTIVE')");
 
-        //  РїРѕР»СѓС‡Р°РµРј id СЃРѕР·РґР°РЅРЅРѕР№ СѓС‚РєРё
-        getDuckId(runner);
-        //  РїР»Р°РІР°РµРј
+        //  плаваем
         swimDuck(runner, "${duckId}");
-        //  РїСЂРѕРІРµСЂСЏРµРј РѕС‚РІРµС‚
+
+        //  проверяем ответ
         validateResponseByJson(runner, 200, "test_responses/swimTest/swimExistedDuckResponse.json");
     }
 
-    @Test(description = "РџСЂРѕРІРµСЂРєР° swim СЃ РЅРµСЃСѓС‰РµСЃС‚РІСѓСЋС‰РёРј id")
+    @Test(description = "Проверка swim с несуществующим id")
     @CitrusTest
-    public void swimNotExistedDuckTest(@Optional @CitrusResource TestCaseRunner runner, @Optional @CitrusResource TestContext context) {
-        //  СЃРѕР·РґР°РµРј СѓС‚РєСѓ
-        Duck duck = new Duck().color("green").height(1.1).material("rubber").sound("quack").wingsState(WingsState.ACTIVE);
-        createDuck(runner, duck);
-
-        //  РїРѕР»СѓС‡Р°РµРј id СѓС‚РєРё
-        getDuckId(runner);
-        //  СЃРѕР·РґР°РµРј РЅРµСЃСѓС‰РµСЃС‚РІСѓСЋС‰РёР№ id
-        int notExistedDuckId = Integer.parseInt(context.getVariable("duckId")) + 1;
-        //  РїР»Р°РІР°РµРј
-        swimDuck(runner, String.valueOf(notExistedDuckId));
-        //  РїСЂРѕРІРµСЂСЏРµРј РѕС‚РІРµС‚
+    public void swimNotExistedDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
+        //  плаваем
+        swimDuck(runner, "1234567");
+        //  проверяем ответ
         String expectedString = "{\n" +
                 "  \"timestamp\": \"@ignore()@\",\n" +
                 "  \"status\": 404,\n" +
                 "  \"error\": \"Duck not found\",\n" +
-                "  \"message\": \"Duck with id = " + notExistedDuckId + " is not found\",\n" +
+                "  \"message\": \"Duck with id = 1234567 is not found\",\n" +
                 "  \"path\": \"/api/duck/action/fly\"\n" +
                 "}";
         validateResponseByString(runner, 404, expectedString);

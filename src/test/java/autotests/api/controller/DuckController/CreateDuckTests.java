@@ -5,32 +5,55 @@ import autotests.payloads.WingsState;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 import autotests.clients.DuckActionsClient;
 
+@Epic("Duck controller")
+@Feature("/api/duck/create")
 public class CreateDuckTests extends DuckActionsClient {
 
-    @Test(description = "РџСЂРѕРІРµСЂРєР° СЃРѕР·РґР°РЅРёСЏ СѓС‚РєРё СЃ material = rubber")
+    @Test(description = "Проверка создания утки с material = rubber")
     @CitrusTest
     public void createRubberDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
-        //  СЃРѕР·РґР°РµРј СѓС‚РєСѓ
-        Duck duck = new Duck().color("green").height(1.1).material("rubber").sound("quack").wingsState(WingsState.ACTIVE);
+        String color = "green";
+        double height = 1.1;
+        String material = "rubber";
+        String sound = "quack";
+        WingsState wingsState = WingsState.ACTIVE;
+
+        //  создаем утку
+        Duck duck = new Duck().color(color).height(height).material(material).sound(sound).wingsState(wingsState);
         createDuck(runner, duck);
 
-        //  РїСЂРѕРІРµСЂСЏРµРј РѕС‚РІРµС‚
-        Duck expectedPayload = new Duck().id("@isNumber()@").color("green").height(1.1).material("rubber").sound("quack").wingsState(WingsState.ACTIVE);
+        //  проверяем ответ
+        Duck expectedPayload = new Duck().id("@isNumber()@").color(color).height(height).material(material).sound(sound).wingsState(wingsState);
         validateResponseByClass(runner, 200, expectedPayload);
+
+        //  проверяем в бд
+        getDuckId(runner);
+        databaseQueryAndValidateDuck(runner, color, height, material, sound, wingsState);
+
+        //  очитска бд
+        clearDB(runner, "${duckId}");
     }
 
-    @Test(description = "РџСЂРѕРІРµСЂРєР° СЃРѕР·РґР°РЅРёСЏ СѓС‚РєРё СЃ material = wood")
+    @Test(description = "Проверка создания утки с material = wood")
     @CitrusTest
     public void createWoodenDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
-        //  СЃРѕР·РґР°РµРј СѓС‚РєСѓ
-        Duck duck = new Duck().color("green").height(1.1).material("wood").sound("quack").wingsState(WingsState.ACTIVE);
+        String color = "green";
+        double height = 1.1;
+        String material = "wood";
+        String sound = "quack";
+        WingsState wingsState = WingsState.ACTIVE;
+
+        //  создаем утку
+        Duck duck = new Duck().color(color).height(height).material(material).sound(sound).wingsState(wingsState);
         createDuck(runner, duck);
 
-        //  РїСЂРѕРІРµСЂСЏРµРј РѕС‚РІРµС‚
+        //  проверяем ответ
         String expectedString = "{\n" +
                 "  \"id\": \"@isNumber()@\",\n" +
                 "  \"color\": \"green\",\n" +
@@ -40,6 +63,12 @@ public class CreateDuckTests extends DuckActionsClient {
                 "  \"wingsState\": \"ACTIVE\"\n" +
                 "}";
         validateResponseByString(runner, 200, expectedString);
+
+        getDuckId(runner);
+        databaseQueryAndValidateDuck(runner, color, height, material, sound, wingsState);
+
+        //  очитска бд
+        clearDB(runner, "${duckId}");
     }
 
 }

@@ -1,52 +1,59 @@
 package autotests.api.controller.DuckController;
 
-import autotests.payloads.Duck;
 import autotests.payloads.WingsState;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
-import com.consol.citrus.context.TestContext;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 import autotests.clients.DuckActionsClient;
 import autotests.payloads.Message;
 
+
+@Epic("Duck controller")
+@Feature("/api/duck/update")
 public class UpdateDuckTests extends DuckActionsClient {
 
-    @Test(description = "РџСЂРѕРІРµСЂРєР° РѕР±РЅРѕРІР»РµРЅРёСЏ С†РІРµС‚Р° Рё РІС‹СЃРѕС‚С‹ СѓС‚РєРё")
+    @Test(description = "Проверка обновления цвета и высоты утки")
     @CitrusTest
-    public void updateColorAndHeightDuckTest(@Optional @CitrusResource TestCaseRunner runner, @Optional @CitrusResource TestContext context) {
-        //  СЃРѕР·РґР°РµРј СѓС‚РєСѓ
-        Duck duck = new Duck().color("green").height(1.1).material("rubber").sound("quack").wingsState(WingsState.ACTIVE);
-        createDuck(runner, duck);
+    public void updateColorAndHeightDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
+        //  создаем утку + очитска бд в конце теста
+        runner.variable("duckId", "citrus:randomNumber(3, false)");
+        clearDB(runner, "${duckId}");
+        databaseUpdate(runner, "insert into duck values (${duckId}, 'green', 1.1, 'rubber', 'quack', 'ACTIVE')");
 
-        //  РїРѕР»СѓС‡Р°РµРј id СЃРѕР·РґР°РЅРЅРѕР№ СѓС‚РєРё
-        getDuckId(runner);
-        int duckid = Integer.parseInt(context.getVariable("duckId"));
-        //  РѕР±РЅРѕРІР»СЏРµРј 2 РїРѕР»СЏ
-        updateDuck(runner, "rainbow", "9.9", "${duckId}", "rubber", "quack", "ACTIVE");
-        // РїСЂРѕРІРµСЂСЏРµРј РѕС‚РІРµС‚
-        String expectedMessage = String.format("Duck with id = %d is updated", duckid);
+        //  обновляем 2 поля
+        updateDuck(runner, "rainbow", 9.9, "${duckId}", "rubber", "quack", WingsState.ACTIVE);
+
+        // проверяем ответ
+        String expectedMessage = "Duck with id = ${duckId} is updated";
         validateResponseByString(runner, 200, "{\n" +
                 "  \"message\": \"" + expectedMessage + "\"\n" +
                 "}");
+
+        //  проверяем в бд
+        databaseQueryAndValidateDuck(runner, "rainbow", 9.9, "rubber", "quack", WingsState.ACTIVE);
     }
 
-    @Test(description = "РџСЂРѕРІРµСЂРєР° РѕР±РЅРѕРІР»РµРЅРёСЏ С†РІРµС‚Р° Рё Р·РІСѓРєР° СѓС‚РєРё")
+    @Test(description = "Проверка обновления цвета и звука утки")
     @CitrusTest
-    public void updateColorAndSoundDuckTest(@Optional @CitrusResource TestCaseRunner runner, @Optional @CitrusResource TestContext context) {
-        //  СЃРѕР·РґР°РµРј СѓС‚РєСѓ
-        Duck duck = new Duck().color("green").height(1.1).material("rubber").sound("quack").wingsState(WingsState.ACTIVE);
-        createDuck(runner, duck);
+    public void updateColorAndSoundDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
+        //  создаем утку + очитска бд в конце теста
+        runner.variable("duckId", "citrus:randomNumber(3, false)");
+        clearDB(runner, "${duckId}");
+        databaseUpdate(runner, "insert into duck values (${duckId}, 'green', 1.1, 'rubber', 'quack', 'ACTIVE')");
 
-        //  РїРѕР»СѓС‡Р°РµРј id СЃРѕР·РґР°РЅРЅРѕР№ СѓС‚РєРё
-        getDuckId(runner);
-        int duckid = Integer.parseInt(context.getVariable("duckId"));
-        //  РѕР±РЅРѕРІР»СЏРµРј 2 РїРѕР»СЏ
-        updateDuck(runner, "green", "1.1", "${duckId}", "rubber", "mew", "ACTIVE");
-        //  РїСЂРѕРІРµСЂСЏРµРј РѕС‚РІРµС‚
-        String expectedMessage = String.format("Duck with id = %d is updated", duckid);
+        //  обновляем 2 поля
+        updateDuck(runner, "rainbow", 1.1, "${duckId}", "rubber", "mew", WingsState.ACTIVE);
+
+        //  проверяем ответ
+        String expectedMessage = "Duck with id = ${duckId} is updated";
         validateResponseByClass(runner, 200, new Message().message(expectedMessage));
+
+        //  проверяем в бд
+        databaseQueryAndValidateDuck(runner, "rainbow", 1.1, "rubber", "mew", WingsState.ACTIVE);
     }
 
 }

@@ -1,19 +1,23 @@
 package autotests.clients;
 
 import autotests.EndpointConfig;
+import autotests.payloads.WingsState;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.message.builder.ObjectMappingPayloadBuilder;
 import com.consol.citrus.testng.spring.TestNGCitrusSpringSupport;
 import com.consol.citrus.http.client.HttpClient;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.qameta.allure.Step;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
+import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import org.springframework.test.context.ContextConfiguration;
-import org.testng.Assert;
 
-import static com.consol.citrus.dsl.JsonSupport.json;
+import static com.consol.citrus.actions.ExecuteSQLAction.Builder.sql;
+import static com.consol.citrus.actions.ExecuteSQLQueryAction.Builder.query;
+import static com.consol.citrus.container.FinallySequence.Builder.doFinally;
 import static com.consol.citrus.dsl.MessageSupport.MessageBodySupport.fromBody;
 import static com.consol.citrus.http.actions.HttpActionBuilder.http;
 
@@ -23,11 +27,10 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
     @Autowired
     public HttpClient yellowDuckService;
 
-    public boolean even;
+    @Autowired
+    protected SingleConnectionDataSource db;
 
-    /**
-     * СЃРѕР·РґР°РЅРёРµ СѓС‚РєРё
-     */
+    @Step("запрос на создание утки")
     public void createDuck(TestCaseRunner runner, Object body) {
         runner.$(http().client(yellowDuckService)
                 .send()
@@ -38,25 +41,21 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    /**
-     * РѕР±РЅРѕРІР»РµРЅРёРµ СѓС‚РєРё
-     */
-    public void updateDuck(TestCaseRunner runner, String color, String height, String id, String material, String sound, String wingsState) {
+    @Step("запрос на обновление утки")
+    public void updateDuck(TestCaseRunner runner, String color, double height, String id, String material, String sound, WingsState wingsState) {
         runner.$(http().client(yellowDuckService)
                 .send()
                 .put("/api/duck/update")
                 .queryParam("color", color)
-                .queryParam("height", height)
+                .queryParam("height", String.valueOf(height))
                 .queryParam("id", id)
                 .queryParam("material", material)
                 .queryParam("sound", sound)
-                .queryParam("wingsState", wingsState)
+                .queryParam("wingsState", wingsState.toString())
         );
     }
 
-    /**
-     * СѓРґР°Р»РµРЅРёРµ СѓС‚РєРё
-     */
+    @Step("запрос на удаление утки")
     public void deleteDuck(TestCaseRunner runner, String id) {
         runner.$(http().client(yellowDuckService)
                 .send()
@@ -65,9 +64,7 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    /**
-     * Р»РµС‚РµС‚СЊ
-     */
+    @Step("запрос на полет утки")
     public void flyDuck(TestCaseRunner runner, String id) {
         runner.$(http().client(yellowDuckService)
                 .send()
@@ -76,9 +73,7 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    /**
-     * РїР»С‹С‚СЊ
-     */
+    @Step("запрос на плавание утки")
     public void swimDuck(TestCaseRunner runner, String id) {
         runner.$(http().client(yellowDuckService)
                 .send()
@@ -87,9 +82,7 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    /**
-     * РїРѕР»СѓС‡РµРЅРёРµ СЃРІРѕР№СЃС‚РІ СѓС‚РєРё
-     */
+    @Step("запрос на получение свойств утки")
     public void getDuckProps(TestCaseRunner runner, String id) {
         runner.$(http().client(yellowDuckService)
                 .send()
@@ -98,9 +91,7 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    /**
-     * РєСЂСЏРєР°С‚СЊ
-     */
+    @Step("запрос на кряканье")
     public void quackDuck(TestCaseRunner runner, String id, String repetitionCount, String soundCount) {
         runner.$(http().client(yellowDuckService)
                 .send()
@@ -111,89 +102,42 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    /**
-     * СЃРѕР·РґР°РЅРёРµ РЅРµС‡РµС‚РЅРѕР№ СѓС‚РєРё
-     */
-    public void createOddDuck(TestCaseRunner runner, Object body) {
-        runner.$(http().client(yellowDuckService)
-                .send()
-                .post("/api/duck/create")
-                .message()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(new ObjectMappingPayloadBuilder(body, new ObjectMapper()))
-
-        );
-        runner.$(http().client(yellowDuckService)
-                .receive()
-                .response()
-                .message()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .extract(fromBody().expression("$.id", "duckId"))
-                .validate((message, testContext) -> {
-                    try {
-                        String id = new ObjectMapper().readTree(message.getPayload().toString()).get("id").toString();
-                        even = Integer.parseInt(id) % 2 == 0;
-                    } catch (JsonProcessingException e) {
-                        throw new RuntimeException(e);
-                    }
-                })
-        );
-        if (even) {
-            createOddDuck(runner, body);
-        }
-    }
-
-    /**
-     * СЃРѕР·РґР°РЅРёРµ С‡РµС‚РЅРѕР№ СѓС‚РєРё
-     */
-    public void createEvenDuck(TestCaseRunner runner, Object body) {
-        runner.$(http().client(yellowDuckService)
-                .send()
-                .post("/api/duck/create")
-                .message()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(new ObjectMappingPayloadBuilder(body, new ObjectMapper()))
-        );
-        runner.$(http().client(yellowDuckService)
-                .receive()
-                .response()
-                .message()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .extract(fromBody().expression("$.id", "duckId"))
-                .validate((message, testContext) -> {
-                    try {
-                        String id = new ObjectMapper().readTree(message.getPayload().toString()).get("id").toString();
-                        even = Integer.parseInt(id) % 2 == 0;
-                    } catch (JsonProcessingException e) {
-                        throw new RuntimeException(e);
-                    }
-                })
-        );
-        if (!even) {
-            createEvenDuck(runner, body);
-        }
-    }
-
-    /**
-     * РїСЂРѕРІРµСЂРєР° РѕС‚СЃСѓС‚СЃС‚РІРёСЏ СѓС‚РєРё РІ Р±Рґ
-     */
-    public void checkInDb(TestCaseRunner runner) {
-        runner.$(http().client(yellowDuckService)
-                .send()
-                .get("/api/duck/getAllIds")
-        );
-        runner.$(http().client(yellowDuckService)
-                .receive()
-                .response()
-                .message()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .validate(((message, testContext) -> Assert.assertFalse(message.getPayload().toString().contains("${duckId}"))))
+    @Step("изменение даныых в бд")
+    public void databaseUpdate(TestCaseRunner runner, String sql) {
+        runner.$(
+                sql(db)
+                        .statement(sql)
         );
     }
 
-    /**
-     * РїРѕР»СѓС‡РµРЅРёРµ id СѓС‚РєРё
-     */
+    @Step("получение и валидация данных утки из бд")
+    public void databaseQueryAndValidateDuck(TestCaseRunner runner, String color, double height, String material, String sound, WingsState wingsState) {
+        runner.$(
+                query(db)
+                        .statement("select * from duck where id = ${duckId}")
+                        .validate("COLOR", color)
+                        .validate("HEIGHT", String.valueOf(height))
+                        .validate("MATERIAL", material)
+                        .validate("SOUND", sound)
+                        .validate("WINGS_STATE", wingsState.toString())
+        );
+    }
+
+    @Step("получение и валидация данных по одному полю из бд")
+    public void databaseQueryAndValidate(TestCaseRunner runner, String sql, String column, String... values) {
+        runner.$(
+                query(db)
+                        .statement(sql)
+                        .validate(column, values)
+        );
+    }
+
+    @Step("очистка бд")
+    public void clearDB(TestCaseRunner runner, String duckId) {
+        runner.$(doFinally().actions(sql(db).statement("delete from duck where id=" + duckId)));
+    }
+
+    @Step("получение id утки из ответа")
     public void getDuckId(TestCaseRunner runner) {
         runner.$(http().client(yellowDuckService)
                 .receive()
@@ -204,9 +148,7 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    /**
-     * РІР°Р»РёРґР°С†РёСЏ РѕС‚РІРµС‚Р° СЃ РїРѕРјРѕС‰СЊСЋ СЃС‚СЂРѕРєРё
-     */
+    @Step("валидация ответа с помощью строки")
     public void validateResponseByString(TestCaseRunner runner, int statusCode, String expectedString) {
         runner.$(http()
                 .client(yellowDuckService)
@@ -219,9 +161,7 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    /**
-     * РІР°Р»РёРґР°С†РёСЏ РѕС‚РІРµС‚Р° СЃ РїРѕРјРѕС‰СЊСЋ json С„Р°Р№Р»Р°
-     */
+    @Step("валидация ответа с помощью json файла")
     public void validateResponseByJson(TestCaseRunner runner, int statusCode, String expectedPayload) {
         runner.$(http()
                 .client(yellowDuckService)
@@ -234,9 +174,7 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    /**
-     * РІР°Р»РёРґР°С†РёСЏ СЃ РїРѕРјРѕС‰СЊСЋ РєР»Р°СЃСЃР°
-     */
+    @Step("валидация ответа с помощью класса")
     public void validateResponseByClass(TestCaseRunner runner, int statusCode, Object expectedPayload) {
         runner.$(http()
                 .client(yellowDuckService)
@@ -249,9 +187,7 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    /**
-     * РІР°Р»РёРґР°С†РёСЏ РѕС‚РІРµС‚Р° СЃ РїРѕРјРѕС‰СЊСЋ jsonschema
-     */
+//    @Step("валидация ответа с помощью jsonschema")
 //    public void validateResponseByJsonSchema(TestCaseRunner runner, int statusCode, String schema) {
 //        runner.$(http()
 //                .client(yellowDuckService)

@@ -1,29 +1,35 @@
 package autotests.api.controller.DuckController;
 
 import autotests.clients.DuckActionsClient;
-import autotests.payloads.Duck;
-import autotests.payloads.WingsState;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 
+
+@Epic("Duck controller")
+@Feature("/api/duck/delete")
 public class DeleteDuckTests extends DuckActionsClient {
 
-    @Test(description = "РџСЂРѕРІРµСЂРєР° СѓРґР°Р»РµРЅРёСЏ СѓС‚РєРё")
+    @Test(description = "Проверка удаления утки")
     @CitrusTest
     public void deleteDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
-        //  СЃРѕР·РґР°РµРј СѓС‚РєСѓ
-        Duck duck = new Duck().color("green").height(1.1).material("rubber").sound("quack").wingsState(WingsState.ACTIVE);
-        createDuck(runner, duck);
+        //  создаем утку + очитска бд в конце теста
+        runner.variable("duckId", "citrus:randomNumber(3, false)");
+        clearDB(runner, "${duckId}");
+        databaseUpdate(runner, "insert into duck values (${duckId}, 'red', 1.1, 'wood', 'quack', 'ACTIVE')");
 
-        //  РїРѕР»СѓС‡Р°РµРј id СЃРѕР·РґР°РЅРЅРѕР№ СѓС‚РєРё
-        getDuckId(runner);
-        //  СѓРґР°Р»СЏРµРј СѓС‚РєСѓ
+        //  запрос на удаление утки
         deleteDuck(runner, "${duckId}");
-        //  РїСЂРѕРІРµСЂСЏРµРј РѕС‚РІРµС‚
+
+        //  проверяем ответ
         validateResponseByJson(runner, 200, "test_responses/deleteDuckTest/deleteDuckResponse.json");
+
+        //  проверяем бд
+        databaseQueryAndValidate(runner, "select count(*) as ducks_count from duck", "ducks_count", "0");
     }
 
 }
