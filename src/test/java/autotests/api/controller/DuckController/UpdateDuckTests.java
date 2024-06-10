@@ -9,7 +9,6 @@ import io.qameta.allure.Feature;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 import autotests.clients.DuckActionsClient;
-import autotests.payloads.Message;
 
 
 @Epic("Duck controller")
@@ -28,9 +27,8 @@ public class UpdateDuckTests extends DuckActionsClient {
         updateDuck(runner, "rainbow", 9.9, "${duckId}", "rubber", "quack", WingsState.ACTIVE);
 
         // ןנמגונÿול מעגוע
-        String expectedMessage = "Duck with id = ${duckId} is updated";
         validateResponseByString(runner, 200, "{\n" +
-                "  \"message\": \"" + expectedMessage + "\"\n" +
+                "  \"message\": \"Duck with id = ${duckId} is updated\"\n" +
                 "}");
 
         //  ןנמגונÿול ג בה
@@ -49,8 +47,9 @@ public class UpdateDuckTests extends DuckActionsClient {
         updateDuck(runner, "rainbow", 1.1, "${duckId}", "rubber", "mew", WingsState.ACTIVE);
 
         //  ןנמגונÿול מעגוע
-        String expectedMessage = "Duck with id = ${duckId} is updated";
-        validateResponseByClass(runner, 200, new Message().message(expectedMessage));
+        validateResponseByString(runner, 200, "{\n" +
+                "  \"message\": \"Duck with id = ${duckId} is updated\"\n" +
+                "}");
 
         //  ןנמגונÿול ג בה
         databaseValidateDuck(runner, "${duckId}", "rainbow", 1.1, "rubber", "mew", WingsState.ACTIVE);

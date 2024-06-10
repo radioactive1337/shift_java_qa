@@ -1,6 +1,8 @@
 package autotests.api.controller.DuckActionController;
 
 import autotests.clients.DuckActionsClient;
+import autotests.payloads.Duck;
+import autotests.payloads.WingsState;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
@@ -25,7 +27,7 @@ public class PropertiesTests extends DuckActionsClient {
         getDuckProps(runner, "${duckId}");
 
         //  проверяем ответ
-        validateResponseByJson(runner, 200, "test_responses/propertiesTest/getEvenWoodenDuckPropsResponse.json");
+        validateResponseByClass(runner, 200, new Duck().color("green").height(1.1).material("wood").sound("quack").wingsState(WingsState.ACTIVE));
     }
 
     @Test(description = "Проверка получения свойств с нечетным id и материалом rubber")
@@ -40,14 +42,7 @@ public class PropertiesTests extends DuckActionsClient {
         getDuckProps(runner, "${duckId}");
 
         //  проверяем ответ
-        String expectedString = "{\n" +
-                "  \"color\": \"green\",\n" +
-                "  \"height\": 1.1,\n" +
-                "  \"material\": \"rubber\",\n" +
-                "  \"sound\": \"quack\",\n" +
-                "  \"wingsState\": \"ACTIVE\"\n" +
-                "}";
-        validateResponseByString(runner, 200, expectedString);
+        validateResponseByClass(runner, 200, new Duck().color("green").height(1.1).material("rubber").sound("quack").wingsState(WingsState.ACTIVE));
     }
 
 }

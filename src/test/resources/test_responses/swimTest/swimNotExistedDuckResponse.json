@@ -1,7 +1,3 @@
 {
-  "timestamp": "2024-05-12T12:52:46.246+0000",
-  "status": 404,
-  "error": "Duck not found",
-  "message": "Duck with id = 11111 is not found",
-  "path": "/api/duck/action/fly"
+  "message": "Paws are not found (((("
 }

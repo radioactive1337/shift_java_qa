@@ -23,16 +23,15 @@ public class CreateDuckTests extends DuckActionsClient {
         String material = "rubber";
         String sound = "quack";
         WingsState wingsState = WingsState.ACTIVE;
+        Duck duck = new Duck().color(color).height(height).material(material).sound(sound).wingsState(wingsState);
 
         //  запрос на создание утки + очистка бд после теста
-        Duck duck = new Duck().color(color).height(height).material(material).sound(sound).wingsState(wingsState);
         createDuck(runner, duck);
         writeIdFromDb(runner, "select * from duck where height = " + height);
         clearDB(runner, "${duckId}");
 
         //  проверяем ответ
-        Duck expectedPayload = new Duck().id("@isNumber()@").color(color).height(height).material(material).sound(sound).wingsState(wingsState);
-        validateResponseByClass(runner, 200, expectedPayload);
+        validateResponseByClass(runner, 200, duck.id("@isNumber()@"));
 
         //  проверяем в бд
         databaseValidateDuck(runner, "${duckId}", color, height, material, sound, wingsState);
@@ -46,23 +45,15 @@ public class CreateDuckTests extends DuckActionsClient {
         String material = "wood";
         String sound = "quack";
         WingsState wingsState = WingsState.ACTIVE;
+        Duck duck = new Duck().color(color).height(height).material(material).sound(sound).wingsState(wingsState);
 
         //  запрос на создание утки + очистка бд после теста
-        Duck duck = new Duck().color(color).height(height).material(material).sound(sound).wingsState(wingsState);
         createDuck(runner, duck);
         writeIdFromDb(runner, "select * from duck where height = " + height);
         clearDB(runner, "${duckId}");
 
         //  проверяем ответ
-        String expectedString = "{\n" +
-                "  \"id\": \"@isNumber()@\",\n" +
-                "  \"color\": \"green\",\n" +
-                "  \"height\": 1.123,\n" +
-                "  \"material\": \"wood\",\n" +
-                "  \"sound\": \"quack\",\n" +
-                "  \"wingsState\": \"ACTIVE\"\n" +
-                "}";
-        validateResponseByString(runner, 200, expectedString);
+        validateResponseByClass(runner, 200, duck.id("@isNumber()@"));
 
         //  проверяем в бд
         databaseValidateDuck(runner, "${duckId}", color, height, material, sound, wingsState);

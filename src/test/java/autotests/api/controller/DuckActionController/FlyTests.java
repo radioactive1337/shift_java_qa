@@ -1,7 +1,6 @@
 package autotests.api.controller.DuckActionController;
 
 import autotests.clients.DuckActionsClient;
-import autotests.payloads.Message;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
@@ -41,10 +40,7 @@ public class FlyTests extends DuckActionsClient {
         flyDuck(runner, "${duckId}");
 
         //  проверяем ответ
-        String message = "{\n" +
-                "  \"message\": \"I can't fly\"\n" +
-                "}";
-        validateResponseByClass(runner, 200, new Message().message(message));
+        validateResponseByJson(runner, 200, "test_responses/flyTest/flyFixedDuckResponse.json");
     }
 
     @Test(description = "Проверка fly с существующим id с крыльями в неопределенном состоянии")
@@ -59,10 +55,7 @@ public class FlyTests extends DuckActionsClient {
         flyDuck(runner, "${duckId}");
 
         //  проверяем ответ
-        String expectedString = "{\n" +
-                "  \"message\": \"Wings are not detected\"\n" +
-                "}";
-        validateResponseByString(runner, 200, expectedString);
+        validateResponseByJson(runner, 200, "test_responses/flyTest/flyUndefinedDuckResponse.json");
     }
 
 }

@@ -32,15 +32,9 @@ public class SwimTests extends DuckActionsClient {
     public void swimNotExistedDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  плаваем
         swimDuck(runner, "1234567");
+
         //  проверяем ответ
-        String expectedString = "{\n" +
-                "  \"timestamp\": \"@ignore()@\",\n" +
-                "  \"status\": 404,\n" +
-                "  \"error\": \"Duck not found\",\n" +
-                "  \"message\": \"Duck with id = 1234567 is not found\",\n" +
-                "  \"path\": \"/api/duck/action/fly\"\n" +
-                "}";
-        validateResponseByString(runner, 404, expectedString);
+        validateResponseByJson(runner, 404, "test_responses/swimTest/swimNotExistedDuckResponse.json");
     }
 
 }
