@@ -28,7 +28,7 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
     @Autowired
     protected SingleConnectionDataSource db;
 
-    @Step("запрос на создание утки")
+    @Step("Р·Р°РїСЂРѕСЃ РЅР° СЃРѕР·РґР°РЅРёРµ СѓС‚РєРё")
     public void createDuck(TestCaseRunner runner, Object body) {
         runner.$(http().client(yellowDuckService)
                 .send()
@@ -39,7 +39,7 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    @Step("запрос на обновление утки")
+    @Step("Р·Р°РїСЂРѕСЃ РЅР° РѕР±РЅРѕРІР»РµРЅРёРµ СѓС‚РєРё")
     public void updateDuck(TestCaseRunner runner, String color, double height, String id, String material, String sound, WingsState wingsState) {
         runner.$(http().client(yellowDuckService)
                 .send()
@@ -53,7 +53,7 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    @Step("запрос на удаление утки")
+    @Step("Р·Р°РїСЂРѕСЃ РЅР° СѓРґР°Р»РµРЅРёРµ СѓС‚РєРё")
     public void deleteDuck(TestCaseRunner runner, String id) {
         runner.$(http().client(yellowDuckService)
                 .send()
@@ -62,7 +62,7 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    @Step("запрос на полет утки")
+    @Step("Р·Р°РїСЂРѕСЃ РЅР° РїРѕР»РµС‚ СѓС‚РєРё")
     public void flyDuck(TestCaseRunner runner, String id) {
         runner.$(http().client(yellowDuckService)
                 .send()
@@ -71,7 +71,7 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    @Step("запрос на плавание утки")
+    @Step("Р·Р°РїСЂРѕСЃ РЅР° РїР»Р°РІР°РЅРёРµ СѓС‚РєРё")
     public void swimDuck(TestCaseRunner runner, String id) {
         runner.$(http().client(yellowDuckService)
                 .send()
@@ -80,7 +80,7 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    @Step("запрос на получение свойств утки")
+    @Step("Р·Р°РїСЂРѕСЃ РЅР° РїРѕР»СѓС‡РµРЅРёРµ СЃРІРѕР№СЃС‚РІ СѓС‚РєРё")
     public void getDuckProps(TestCaseRunner runner, String id) {
         runner.$(http().client(yellowDuckService)
                 .send()
@@ -89,7 +89,7 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    @Step("запрос на кряканье")
+    @Step("Р·Р°РїСЂРѕСЃ РЅР° РєСЂСЏРєР°РЅСЊРµ")
     public void quackDuck(TestCaseRunner runner, String id, String repetitionCount, String soundCount) {
         runner.$(http().client(yellowDuckService)
                 .send()
@@ -100,7 +100,7 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    @Step("изменение даныых в бд")
+    @Step("РёР·РјРµРЅРµРЅРёРµ РґР°РЅС‹С‹С… РІ Р±Рґ")
     public void databaseUpdate(TestCaseRunner runner, String sql) {
         runner.$(
                 sql(db)
@@ -108,7 +108,7 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    @Step("валидация данных утки в бд")
+    @Step("РІР°Р»РёРґР°С†РёСЏ РґР°РЅРЅС‹С… СѓС‚РєРё РІ Р±Рґ")
     public void databaseValidateDuck(TestCaseRunner runner, String id, String color, double height, String material, String sound, WingsState wingsState) {
         runner.$(
                 query(db)
@@ -121,7 +121,7 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    @Step("валидация данных по одному полю в бд")
+    @Step("РІР°Р»РёРґР°С†РёСЏ РґР°РЅРЅС‹С… РїРѕ РѕРґРЅРѕРјСѓ РїРѕР»СЋ РІ Р±Рґ")
     public void databaseQueryAndValidate(TestCaseRunner runner, String sql, String column, String... values) {
         runner.$(
                 query(db)
@@ -130,7 +130,7 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    @Step("получение и зпись id в переменную из бд")
+    @Step("РїРѕР»СѓС‡РµРЅРёРµ Рё Р·РїРёСЃСЊ id РІ РїРµСЂРµРјРµРЅРЅСѓСЋ РёР· Р±Рґ")
     public void writeIdFromDb(TestCaseRunner runner, String sql) {
         runner.$(
                 query(db)
@@ -139,7 +139,7 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    @Step("очистка бд")
+    @Step("РѕС‡РёСЃС‚РєР° Р±Рґ")
     public void clearDB(TestCaseRunner runner, String duckId) {
         runner.$(
                 doFinally()
@@ -150,7 +150,7 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    @Step("валидация ответа с помощью строки")
+    @Step("РІР°Р»РёРґР°С†РёСЏ РѕС‚РІРµС‚Р° СЃ РїРѕРјРѕС‰СЊСЋ СЃС‚СЂРѕРєРё")
     public void validateResponseByString(TestCaseRunner runner, int statusCode, String expectedString) {
         runner.$(http()
                 .client(yellowDuckService)
@@ -163,7 +163,7 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    @Step("валидация ответа с помощью json файла")
+    @Step("РІР°Р»РёРґР°С†РёСЏ РѕС‚РІРµС‚Р° СЃ РїРѕРјРѕС‰СЊСЋ json С„Р°Р№Р»Р°")
     public void validateResponseByJson(TestCaseRunner runner, int statusCode, String expectedPayload) {
         runner.$(http()
                 .client(yellowDuckService)
@@ -176,7 +176,7 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-    @Step("валидация ответа с помощью класса")
+    @Step("РІР°Р»РёРґР°С†РёСЏ РѕС‚РІРµС‚Р° СЃ РїРѕРјРѕС‰СЊСЋ РєР»Р°СЃСЃР°")
     public void validateResponseByClass(TestCaseRunner runner, int statusCode, Object expectedPayload) {
         runner.$(http()
                 .client(yellowDuckService)
@@ -189,7 +189,7 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
         );
     }
 
-//    @Step("валидация ответа с помощью jsonschema")
+//    @Step("РІР°Р»РёРґР°С†РёСЏ РѕС‚РІРµС‚Р° СЃ РїРѕРјРѕС‰СЊСЋ jsonschema")
 //    public void validateResponseByJsonSchema(TestCaseRunner runner, int statusCode, String schema) {
 //        runner.$(http()
 //                .client(yellowDuckService)

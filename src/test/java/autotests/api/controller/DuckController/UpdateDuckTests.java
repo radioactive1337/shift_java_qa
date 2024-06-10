@@ -15,43 +15,43 @@ import autotests.clients.DuckActionsClient;
 @Feature("/api/duck/update")
 public class UpdateDuckTests extends DuckActionsClient {
 
-    @Test(description = "Проверка обновления цвета и высоты утки")
+    @Test(description = "РџСЂРѕРІРµСЂРєР° РѕР±РЅРѕРІР»РµРЅРёСЏ С†РІРµС‚Р° Рё РІС‹СЃРѕС‚С‹ СѓС‚РєРё")
     @CitrusTest
     public void updateColorAndHeightDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
-        //  создаем утку + очитска бд в конце теста
+        //  СЃРѕР·РґР°РµРј СѓС‚РєСѓ + РѕС‡РёС‚СЃРєР° Р±Рґ РІ РєРѕРЅС†Рµ С‚РµСЃС‚Р°
         runner.variable("duckId", "citrus:randomNumber(4, false)");
         clearDB(runner, "${duckId}");
         databaseUpdate(runner, "insert into duck values (${duckId}, 'green', 1.1, 'rubber', 'quack', 'ACTIVE')");
 
-        //  обновляем 2 поля
+        //  РѕР±РЅРѕРІР»СЏРµРј 2 РїРѕР»СЏ
         updateDuck(runner, "rainbow", 9.9, "${duckId}", "rubber", "quack", WingsState.ACTIVE);
 
-        // проверяем ответ
+        // РїСЂРѕРІРµСЂСЏРµРј РѕС‚РІРµС‚
         validateResponseByString(runner, 200, "{\n" +
                 "  \"message\": \"Duck with id = ${duckId} is updated\"\n" +
                 "}");
 
-        //  проверяем в бд
+        //  РїСЂРѕРІРµСЂСЏРµРј РІ Р±Рґ
         databaseValidateDuck(runner, "${duckId}", "rainbow", 9.9, "rubber", "quack", WingsState.ACTIVE);
     }
 
-    @Test(description = "Проверка обновления цвета и звука утки")
+    @Test(description = "РџСЂРѕРІРµСЂРєР° РѕР±РЅРѕРІР»РµРЅРёСЏ С†РІРµС‚Р° Рё Р·РІСѓРєР° СѓС‚РєРё")
     @CitrusTest
     public void updateColorAndSoundDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
-        //  создаем утку + очитска бд в конце теста
+        //  СЃРѕР·РґР°РµРј СѓС‚РєСѓ + РѕС‡РёС‚СЃРєР° Р±Рґ РІ РєРѕРЅС†Рµ С‚РµСЃС‚Р°
         runner.variable("duckId", "citrus:randomNumber(4, false)");
         clearDB(runner, "${duckId}");
         databaseUpdate(runner, "insert into duck values (${duckId}, 'green', 1.1, 'rubber', 'quack', 'ACTIVE')");
 
-        //  обновляем 2 поля
+        //  РѕР±РЅРѕРІР»СЏРµРј 2 РїРѕР»СЏ
         updateDuck(runner, "rainbow", 1.1, "${duckId}", "rubber", "mew", WingsState.ACTIVE);
 
-        //  проверяем ответ
+        //  РїСЂРѕРІРµСЂСЏРµРј РѕС‚РІРµС‚
         validateResponseByString(runner, 200, "{\n" +
                 "  \"message\": \"Duck with id = ${duckId} is updated\"\n" +
                 "}");
 
-        //  проверяем в бд
+        //  РїСЂРѕРІРµСЂСЏРµРј РІ Р±Рґ
         databaseValidateDuck(runner, "${duckId}", "rainbow", 1.1, "rubber", "mew", WingsState.ACTIVE);
     }
 

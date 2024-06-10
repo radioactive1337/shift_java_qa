@@ -13,35 +13,35 @@ import org.testng.annotations.Test;
 @Feature("/api/duck/action/quack")
 public class QuackTests extends DuckActionsClient {
 
-    @Test(description = "Проверка кряканья с четным id")
+    @Test(description = "РџСЂРѕРІРµСЂРєР° РєСЂСЏРєР°РЅСЊСЏ СЃ С‡РµС‚РЅС‹Рј id")
     @CitrusTest
     public void quackEvenDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
-        //  создаем утку с четным id + очитска бд в конце теста
+        //  СЃРѕР·РґР°РµРј СѓС‚РєСѓ СЃ С‡РµС‚РЅС‹Рј id + РѕС‡РёС‚СЃРєР° Р±Рґ РІ РєРѕРЅС†Рµ С‚РµСЃС‚Р°
         runner.variable("duckId", "citrus:randomNumber(4, false)2");
         clearDB(runner, "${duckId}");
         databaseUpdate(runner, "insert into duck values (${duckId}, 'green', 1.1, 'rubber', 'quack', 'ACTIVE')");
 
-        //  крякаем
+        //  РєСЂСЏРєР°РµРј
         quackDuck(runner, "${duckId}", "1", "1");
 
-        //  проверка ответа
+        //  РїСЂРѕРІРµСЂРєР° РѕС‚РІРµС‚Р°
         validateResponseByString(runner, 200, "{\n" +
                 "  \"sound\": \"quack\"\n" +
                 "}");
     }
 
-    @Test(description = "Проверка кряканья с нечетным id")
+    @Test(description = "РџСЂРѕРІРµСЂРєР° РєСЂСЏРєР°РЅСЊСЏ СЃ РЅРµС‡РµС‚РЅС‹Рј id")
     @CitrusTest
     public void quackOddDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
-        //  создаем утку с нечетным id + очитска бд в конце теста
+        //  СЃРѕР·РґР°РµРј СѓС‚РєСѓ СЃ РЅРµС‡РµС‚РЅС‹Рј id + РѕС‡РёС‚СЃРєР° Р±Рґ РІ РєРѕРЅС†Рµ С‚РµСЃС‚Р°
         runner.variable("duckId", "citrus:randomNumber(4, false)1");
         clearDB(runner, "${duckId}");
         databaseUpdate(runner, "insert into duck values (${duckId}, 'green', 1.1, 'rubber', 'quack', 'ACTIVE')");
 
-        //  крякаем
+        //  РєСЂСЏРєР°РµРј
         quackDuck(runner, "${duckId}", "1", "1");
 
-        //  проверка ответа
+        //  РїСЂРѕРІРµСЂРєР° РѕС‚РІРµС‚Р°
         validateResponseByString(runner, 200, "{\n" +
                 "  \"sound\": \"quack\"\n" +
                 "}");

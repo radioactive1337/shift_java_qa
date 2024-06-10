@@ -15,33 +15,33 @@ import org.testng.annotations.Test;
 @Feature("/api/duck/action/properties")
 public class PropertiesTests extends DuckActionsClient {
 
-    @Test(description = "Проверка получения свойств с четным id и материалом wood")
+    @Test(description = "РџСЂРѕРІРµСЂРєР° РїРѕР»СѓС‡РµРЅРёСЏ СЃРІРѕР№СЃС‚РІ СЃ С‡РµС‚РЅС‹Рј id Рё РјР°С‚РµСЂРёР°Р»РѕРј wood")
     @CitrusTest
     public void getEvenWoodenDuckPropsTest(@Optional @CitrusResource TestCaseRunner runner) {
-        //  создаем утку с четным id + очитска бд в конце теста
+        //  СЃРѕР·РґР°РµРј СѓС‚РєСѓ СЃ С‡РµС‚РЅС‹Рј id + РѕС‡РёС‚СЃРєР° Р±Рґ РІ РєРѕРЅС†Рµ С‚РµСЃС‚Р°
         runner.variable("duckId", "citrus:randomNumber(4, false)1");
         clearDB(runner, "${duckId}");
         databaseUpdate(runner, "insert into duck values (${duckId}, 'green', 1.1, 'wood', 'quack', 'ACTIVE')");
 
-        //  получаем ее свойства
+        //  РїРѕР»СѓС‡Р°РµРј РµРµ СЃРІРѕР№СЃС‚РІР°
         getDuckProps(runner, "${duckId}");
 
-        //  проверяем ответ
+        //  РїСЂРѕРІРµСЂСЏРµРј РѕС‚РІРµС‚
         validateResponseByClass(runner, 200, new Duck().color("green").height(1.1).material("wood").sound("quack").wingsState(WingsState.ACTIVE));
     }
 
-    @Test(description = "Проверка получения свойств с нечетным id и материалом rubber")
+    @Test(description = "РџСЂРѕРІРµСЂРєР° РїРѕР»СѓС‡РµРЅРёСЏ СЃРІРѕР№СЃС‚РІ СЃ РЅРµС‡РµС‚РЅС‹Рј id Рё РјР°С‚РµСЂРёР°Р»РѕРј rubber")
     @CitrusTest
     public void getOddRubberDuckPropsTest(@Optional @CitrusResource TestCaseRunner runner) {
-        //  создаем утку с нечетным id + очитска бд в конце теста
+        //  СЃРѕР·РґР°РµРј СѓС‚РєСѓ СЃ РЅРµС‡РµС‚РЅС‹Рј id + РѕС‡РёС‚СЃРєР° Р±Рґ РІ РєРѕРЅС†Рµ С‚РµСЃС‚Р°
         runner.variable("duckId", "citrus:randomNumber(4, false)2");
         clearDB(runner, "${duckId}");
         databaseUpdate(runner, "insert into duck values (${duckId}, 'green', 1.1, 'rubber', 'quack', 'ACTIVE')");
 
-        //  получаем ее свойства
+        //  РїРѕР»СѓС‡Р°РµРј РµРµ СЃРІРѕР№СЃС‚РІР°
         getDuckProps(runner, "${duckId}");
 
-        //  проверяем ответ
+        //  РїСЂРѕРІРµСЂСЏРµРј РѕС‚РІРµС‚
         validateResponseByClass(runner, 200, new Duck().color("green").height(1.1).material("rubber").sound("quack").wingsState(WingsState.ACTIVE));
     }
 

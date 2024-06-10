@@ -15,7 +15,7 @@ import autotests.clients.DuckActionsClient;
 @Feature("/api/duck/create")
 public class CreateDuckTests extends DuckActionsClient {
 
-    @Test(description = "Проверка создания утки с material = rubber")
+    @Test(description = "РџСЂРѕРІРµСЂРєР° СЃРѕР·РґР°РЅРёСЏ СѓС‚РєРё СЃ material = rubber")
     @CitrusTest
     public void createRubberDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
         String color = "green";
@@ -25,19 +25,19 @@ public class CreateDuckTests extends DuckActionsClient {
         WingsState wingsState = WingsState.ACTIVE;
         Duck duck = new Duck().color(color).height(height).material(material).sound(sound).wingsState(wingsState);
 
-        //  запрос на создание утки + очистка бд после теста
+        //  Р·Р°РїСЂРѕСЃ РЅР° СЃРѕР·РґР°РЅРёРµ СѓС‚РєРё + РѕС‡РёСЃС‚РєР° Р±Рґ РїРѕСЃР»Рµ С‚РµСЃС‚Р°
         createDuck(runner, duck);
         writeIdFromDb(runner, "select * from duck where height = " + height);
         clearDB(runner, "${duckId}");
 
-        //  проверяем ответ
+        //  РїСЂРѕРІРµСЂСЏРµРј РѕС‚РІРµС‚
         validateResponseByClass(runner, 200, duck.id("@isNumber()@"));
 
-        //  проверяем в бд
+        //  РїСЂРѕРІРµСЂСЏРµРј РІ Р±Рґ
         databaseValidateDuck(runner, "${duckId}", color, height, material, sound, wingsState);
     }
 
-    @Test(description = "Проверка создания утки с material = wood")
+    @Test(description = "РџСЂРѕРІРµСЂРєР° СЃРѕР·РґР°РЅРёСЏ СѓС‚РєРё СЃ material = wood")
     @CitrusTest
     public void createWoodenDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
         String color = "green";
@@ -47,15 +47,15 @@ public class CreateDuckTests extends DuckActionsClient {
         WingsState wingsState = WingsState.ACTIVE;
         Duck duck = new Duck().color(color).height(height).material(material).sound(sound).wingsState(wingsState);
 
-        //  запрос на создание утки + очистка бд после теста
+        //  Р·Р°РїСЂРѕСЃ РЅР° СЃРѕР·РґР°РЅРёРµ СѓС‚РєРё + РѕС‡РёСЃС‚РєР° Р±Рґ РїРѕСЃР»Рµ С‚РµСЃС‚Р°
         createDuck(runner, duck);
         writeIdFromDb(runner, "select * from duck where height = " + height);
         clearDB(runner, "${duckId}");
 
-        //  проверяем ответ
+        //  РїСЂРѕРІРµСЂСЏРµРј РѕС‚РІРµС‚
         validateResponseByClass(runner, 200, duck.id("@isNumber()@"));
 
-        //  проверяем в бд
+        //  РїСЂРѕРІРµСЂСЏРµРј РІ Р±Рґ
         databaseValidateDuck(runner, "${duckId}", color, height, material, sound, wingsState);
     }
 

@@ -14,21 +14,21 @@ import org.testng.annotations.Test;
 @Feature("/api/duck/delete")
 public class DeleteDuckTests extends DuckActionsClient {
 
-    @Test(description = "Проверка удаления утки")
+    @Test(description = "РџСЂРѕРІРµСЂРєР° СѓРґР°Р»РµРЅРёСЏ СѓС‚РєРё")
     @CitrusTest
     public void deleteDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
-        //  создаем утку + очитска бд в конце теста
+        //  СЃРѕР·РґР°РµРј СѓС‚РєСѓ + РѕС‡РёС‚СЃРєР° Р±Рґ РІ РєРѕРЅС†Рµ С‚РµСЃС‚Р°
         runner.variable("duckId", "citrus:randomNumber(4, false)");
         clearDB(runner, "${duckId}");
         databaseUpdate(runner, "insert into duck values (${duckId}, 'red', 1.1, 'wood', 'quack', 'ACTIVE')");
 
-        //  запрос на удаление утки
+        //  Р·Р°РїСЂРѕСЃ РЅР° СѓРґР°Р»РµРЅРёРµ СѓС‚РєРё
         deleteDuck(runner, "${duckId}");
 
-        //  проверяем ответ
+        //  РїСЂРѕРІРµСЂСЏРµРј РѕС‚РІРµС‚
         validateResponseByJson(runner, 200, "test_responses/deleteDuckTest/deleteDuckResponse.json");
 
-        //  проверяем бд
+        //  РїСЂРѕРІРµСЂСЏРµРј Р±Рґ
         databaseQueryAndValidate(runner, "select count(*) as ducks_count from duck where id = ${duckId}", "ducks_count", "0");
     }
 

@@ -13,48 +13,48 @@ import org.testng.annotations.Test;
 @Feature("/api/duck/action/fly")
 public class FlyTests extends DuckActionsClient {
 
-    @Test(description = "Проверка fly с существующим id с активными крыльями")
+    @Test(description = "РџСЂРѕРІРµСЂРєР° fly СЃ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёРј id СЃ Р°РєС‚РёРІРЅС‹РјРё РєСЂС‹Р»СЊСЏРјРё")
     @CitrusTest
     public void flyActiveDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
-        //  создаем утку + очитска бд в конце теста
+        //  СЃРѕР·РґР°РµРј СѓС‚РєСѓ + РѕС‡РёС‚СЃРєР° Р±Рґ РІ РєРѕРЅС†Рµ С‚РµСЃС‚Р°
         runner.variable("duckId", "citrus:randomNumber(4, false)");
         clearDB(runner, "${duckId}");
         databaseUpdate(runner, "insert into duck values (${duckId}, 'green', 1.1, 'rubber', 'quack', 'ACTIVE')");
 
-        //  летаем
+        //  Р»РµС‚Р°РµРј
         flyDuck(runner, "${duckId}");
 
-        //  проверяем ответ
+        //  РїСЂРѕРІРµСЂСЏРµРј РѕС‚РІРµС‚
         validateResponseByJson(runner, 200, "test_responses/flyTest/flyActiveDuckResponse.json");
     }
 
-    @Test(description = "Проверка fly с существующим id со связанными крыльями")
+    @Test(description = "РџСЂРѕРІРµСЂРєР° fly СЃ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёРј id СЃРѕ СЃРІСЏР·Р°РЅРЅС‹РјРё РєСЂС‹Р»СЊСЏРјРё")
     @CitrusTest
     public void flyFixedDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
-        //  создаем утку + очитска бд в конце теста
+        //  СЃРѕР·РґР°РµРј СѓС‚РєСѓ + РѕС‡РёС‚СЃРєР° Р±Рґ РІ РєРѕРЅС†Рµ С‚РµСЃС‚Р°
         runner.variable("duckId", "citrus:randomNumber(4, false)");
         clearDB(runner, "${duckId}");
         databaseUpdate(runner, "insert into duck values (${duckId}, 'green', 1.1, 'rubber', 'quack', 'FIXED')");
 
-        //  летаем
+        //  Р»РµС‚Р°РµРј
         flyDuck(runner, "${duckId}");
 
-        //  проверяем ответ
+        //  РїСЂРѕРІРµСЂСЏРµРј РѕС‚РІРµС‚
         validateResponseByJson(runner, 200, "test_responses/flyTest/flyFixedDuckResponse.json");
     }
 
-    @Test(description = "Проверка fly с существующим id с крыльями в неопределенном состоянии")
+    @Test(description = "РџСЂРѕРІРµСЂРєР° fly СЃ СЃСѓС‰РµСЃС‚РІСѓСЋС‰РёРј id СЃ РєСЂС‹Р»СЊСЏРјРё РІ РЅРµРѕРїСЂРµРґРµР»РµРЅРЅРѕРј СЃРѕСЃС‚РѕСЏРЅРёРё")
     @CitrusTest
     public void flyUndefinedDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
-        //  создаем утку + очитска бд в конце теста
+        //  СЃРѕР·РґР°РµРј СѓС‚РєСѓ + РѕС‡РёС‚СЃРєР° Р±Рґ РІ РєРѕРЅС†Рµ С‚РµСЃС‚Р°
         runner.variable("duckId", "citrus:randomNumber(4, false)");
         clearDB(runner, "${duckId}");
         databaseUpdate(runner, "insert into duck values (${duckId}, 'green', 1.1, 'rubber', 'quack', 'UNDEFINED')");
 
-        //  летаем
+        //  Р»РµС‚Р°РµРј
         flyDuck(runner, "${duckId}");
 
-        //  проверяем ответ
+        //  РїСЂРѕРІРµСЂСЏРµРј РѕС‚РІРµС‚
         validateResponseByJson(runner, 200, "test_responses/flyTest/flyUndefinedDuckResponse.json");
     }
 
