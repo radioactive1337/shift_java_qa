@@ -1,18 +1,17 @@
 package autotests.clients;
 
+import autotests.BaseTest;
 import autotests.EndpointConfig;
 import autotests.payloads.WingsState;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.message.builder.ObjectMappingPayloadBuilder;
-import com.consol.citrus.testng.spring.TestNGCitrusSpringSupport;
-import com.consol.citrus.http.client.HttpClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.qameta.allure.Step;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
-import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import org.springframework.test.context.ContextConfiguration;
+
+import java.util.Map;
 
 import static com.consol.citrus.actions.ExecuteSQLAction.Builder.sql;
 import static com.consol.citrus.actions.ExecuteSQLQueryAction.Builder.query;
@@ -20,47 +19,32 @@ import static com.consol.citrus.container.FinallySequence.Builder.doFinally;
 import static com.consol.citrus.http.actions.HttpActionBuilder.http;
 
 @ContextConfiguration(classes = {EndpointConfig.class})
-public class DuckActionsClient extends TestNGCitrusSpringSupport {
-
-    @Autowired
-    public HttpClient yellowDuckService;
-
-    @Autowired
-    protected SingleConnectionDataSource db;
+public class DuckActionsClient extends BaseTest {
 
     @Step("запрос на создание утки")
-    public void createDuck(TestCaseRunner runner, Object body) {
-        runner.$(http().client(yellowDuckService)
-                .send()
-                .post("/api/duck/create")
-                .message()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(new ObjectMappingPayloadBuilder(body, new ObjectMapper()))
-        );
+    protected void requestCreateDuck(TestCaseRunner runner, Object duckProps) {
+        sendPostRequest(runner, yellowDuckService, "/api/duck/create", duckProps);
     }
 
     @Step("запрос на обновление утки")
-    public void updateDuck(TestCaseRunner runner, String color, double height, String id, String material, String sound, WingsState wingsState) {
-        runner.$(http().client(yellowDuckService)
-                .send()
-                .put("/api/duck/update")
-                .queryParam("color", color)
-                .queryParam("height", String.valueOf(height))
-                .queryParam("id", id)
-                .queryParam("material", material)
-                .queryParam("sound", sound)
-                .queryParam("wingsState", wingsState.toString())
+    protected void requestUpdateDuck(TestCaseRunner runner, String color, double height, String id, String material, String sound, WingsState wingsState) {
+        Map<String, String> queryParams = Map.of(
+                "color", color,
+                "height", String.valueOf(height),
+                "id", id,
+                "material", material,
+                "sound", sound,
+                "wingsState", wingsState.toString()
         );
+        sendPutRequest(runner, yellowDuckService, "/api/duck/update", queryParams);
     }
 
     @Step("запрос на удаление утки")
-    public void deleteDuck(TestCaseRunner runner, String id) {
-        runner.$(http().client(yellowDuckService)
-                .send()
-                .delete("/api/duck/delete")
-                .queryParam("id", id)
-        );
+    protected void requestDeleteDuck(TestCaseRunner runner) {
+        sendDeleteRequest(runner, yellowDuckService, "/api/duck/delete", "id", "${duckId}");
     }
+
+//    ----------
 
     @Step("запрос на полет утки")
     public void flyDuck(TestCaseRunner runner, String id) {
@@ -188,6 +172,7 @@ public class DuckActionsClient extends TestNGCitrusSpringSupport {
                 .body(new ObjectMappingPayloadBuilder(expectedPayload, new ObjectMapper()))
         );
     }
+
 
 //    @Step("валидация ответа с помощью jsonschema")
 //    public void validateResponseByJsonSchema(TestCaseRunner runner, int statusCode, String schema) {

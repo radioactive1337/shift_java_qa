@@ -47,4 +47,21 @@ public class QuackTests extends DuckActionsClient {
                 "}");
     }
 
+    @Test(description = "Проверка кряканья с нечетным id")
+    @CitrusTest
+    public void quack1(@Optional @CitrusResource TestCaseRunner runner) {
+        //  создаем утку с нечетным id + очитска бд в конце теста
+        runner.variable("duckId", "citrus:randomNumber(4, false)1");
+        clearDB(runner, "${duckId}");
+        databaseUpdate(runner, "insert into duck values (${duckId}, 'green', 1.1, 'rubber', 'quack', 'ACTIVE')");
+
+        //  крякаем
+        quackDuck(runner, "${duckId}", "1", "1");
+
+        //  проверка ответа
+        validateResponseByString(runner, 200, "{\n" +
+                "  \"sound\": \"quack\"\n" +
+                "}");
+    }
+
 }

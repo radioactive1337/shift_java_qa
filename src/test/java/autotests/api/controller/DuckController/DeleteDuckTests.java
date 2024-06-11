@@ -23,7 +23,7 @@ public class DeleteDuckTests extends DuckActionsClient {
         databaseUpdate(runner, "insert into duck values (${duckId}, 'red', 1.1, 'wood', 'quack', 'ACTIVE')");
 
         //  запрос на удаление утки
-        deleteDuck(runner, "${duckId}");
+        requestDeleteDuck(runner);
 
         //  проверяем ответ
         validateResponseByJson(runner, 200, "test_responses/deleteDuckTest/deleteDuckResponse.json");

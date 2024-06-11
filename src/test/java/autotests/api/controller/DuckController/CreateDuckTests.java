@@ -26,7 +26,7 @@ public class CreateDuckTests extends DuckActionsClient {
         Duck duck = new Duck().color(color).height(height).material(material).sound(sound).wingsState(wingsState);
 
         //  запрос на создание утки + очистка бд после теста
-        createDuck(runner, duck);
+        requestCreateDuck(runner, duck);
         writeIdFromDb(runner, "select * from duck where height = " + height);
         clearDB(runner, "${duckId}");
 
@@ -48,7 +48,7 @@ public class CreateDuckTests extends DuckActionsClient {
         Duck duck = new Duck().color(color).height(height).material(material).sound(sound).wingsState(wingsState);
 
         //  запрос на создание утки + очистка бд после теста
-        createDuck(runner, duck);
+        requestCreateDuck(runner, duck);
         writeIdFromDb(runner, "select * from duck where height = " + height);
         clearDB(runner, "${duckId}");
 
