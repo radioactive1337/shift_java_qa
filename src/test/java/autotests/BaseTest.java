@@ -104,11 +104,11 @@ public class BaseTest extends TestNGCitrusSpringSupport {
 //    }
 
     @Step("валидация запроса к бд (одно поле, одно значение)")
-    protected void validateDatabaseQuery(TestCaseRunner runner, String sql, String column, String... values) {
+    protected void validateDatabaseQuery(TestCaseRunner runner, String sql, String column, String value) {
         runner.$(
                 query(db)
                         .statement(sql)
-                        .validate(column, values)
+                        .validate(column, value)
         );
     }
 
