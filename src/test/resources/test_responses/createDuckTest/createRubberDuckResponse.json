@@ -1,0 +1,8 @@
+{
+  "id": 27,
+  "color": "green",
+  "height": 1.1,
+  "material": "rubber",
+  "sound": "quack",
+  "wingsState": "ACTIVE"
+}
