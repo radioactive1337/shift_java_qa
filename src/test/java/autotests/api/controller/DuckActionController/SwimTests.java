@@ -17,11 +17,11 @@ public class SwimTests extends DuckActionsClient {
     public void swimExistedDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  создаем утку + очитска бд в конце теста
         runner.variable("duckId", "citrus:randomNumber(4, false)");
-        clearDB(runner, "${duckId}");
+        finallyClearDb(runner);
         databaseUpdate(runner, "insert into duck values (${duckId}, 'green', 1.1, 'rubber', 'quack', 'ACTIVE')");
 
         //  плаваем
-        swimDuck(runner, "${duckId}");
+        requestSwimDuck(runner, "${duckId}");
 
         //  проверяем ответ
         validateResponseByJson(runner, 200, "test_responses/swimTest/swimExistedDuckResponse.json");
@@ -31,7 +31,7 @@ public class SwimTests extends DuckActionsClient {
     @CitrusTest
     public void swimNotExistedDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  плаваем
-        swimDuck(runner, "1234567");
+        requestSwimDuck(runner, "1234567");
 
         //  проверяем ответ
         validateResponseByJson(runner, 404, "test_responses/swimTest/swimNotExistedDuckResponse.json");

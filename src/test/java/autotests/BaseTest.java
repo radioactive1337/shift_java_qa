@@ -1,6 +1,5 @@
 package autotests;
 
-import autotests.payloads.WingsState;
 import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.message.builder.ObjectMappingPayloadBuilder;
 import com.consol.citrus.testng.spring.TestNGCitrusSpringSupport;
@@ -22,9 +21,6 @@ import static com.consol.citrus.http.actions.HttpActionBuilder.http;
 
 @ContextConfiguration(classes = {EndpointConfig.class})
 public class BaseTest extends TestNGCitrusSpringSupport {
-
-    @Autowired
-    public HttpClient yellowDuckService;
 
     @Autowired
     protected SingleConnectionDataSource db;
@@ -94,20 +90,20 @@ public class BaseTest extends TestNGCitrusSpringSupport {
         );
     }
 
-    @Step("валидация данных утки в бд")
-    protected void validateDatabaseDuck(TestCaseRunner runner, String id, String color, double height, String material, String sound, WingsState wingsState) {
-        runner.$(
-                query(db)
-                        .statement("select * from duck where id = " + id)
-                        .validate("COLOR", color)
-                        .validate("HEIGHT", String.valueOf(height))
-                        .validate("MATERIAL", material)
-                        .validate("SOUND", sound)
-                        .validate("WINGS_STATE", wingsState.toString())
-        );
-    }
+//    @Step("валидация данных утки в бд")
+//    protected void validateDatabaseDuck(TestCaseRunner runner, String id, String color, double height, String material, String sound, WingsState wingsState) {
+//        runner.$(
+//                query(db)
+//                        .statement("select * from duck where id = " + id)
+//                        .validate("COLOR", color)
+//                        .validate("HEIGHT", String.valueOf(height))
+//                        .validate("MATERIAL", material)
+//                        .validate("SOUND", sound)
+//                        .validate("WINGS_STATE", wingsState.toString())
+//        );
+//    }
 
-    @Step("валидация запроса к бд")
+    @Step("валидация запроса к бд (одно поле, одно значение)")
     protected void validateDatabaseQuery(TestCaseRunner runner, String sql, String column, String... values) {
         runner.$(
                 query(db)
@@ -126,12 +122,12 @@ public class BaseTest extends TestNGCitrusSpringSupport {
     }
 
     @Step("финальная очистка бд")
-    protected void finallyClearDb(TestCaseRunner runner, String duckId) {
+    protected void finallyExecuteSqlQuery(TestCaseRunner runner, String sql) {
         runner.$(
                 doFinally()
                         .actions(
                                 sql(db)
-                                        .statement("delete from duck where id=" + duckId)
+                                        .statement(sql)
                         )
         );
     }

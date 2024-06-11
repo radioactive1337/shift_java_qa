@@ -18,11 +18,11 @@ public class FlyTests extends DuckActionsClient {
     public void flyActiveDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  создаем утку + очитска бд в конце теста
         runner.variable("duckId", "citrus:randomNumber(4, false)");
-        clearDB(runner, "${duckId}");
+        finallyClearDb(runner);
         databaseUpdate(runner, "insert into duck values (${duckId}, 'green', 1.1, 'rubber', 'quack', 'ACTIVE')");
 
         //  летаем
-        flyDuck(runner, "${duckId}");
+        requestFlyDuck(runner, "${duckId}");
 
         //  проверяем ответ
         validateResponseByJson(runner, 200, "test_responses/flyTest/flyActiveDuckResponse.json");
@@ -33,11 +33,11 @@ public class FlyTests extends DuckActionsClient {
     public void flyFixedDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  создаем утку + очитска бд в конце теста
         runner.variable("duckId", "citrus:randomNumber(4, false)");
-        clearDB(runner, "${duckId}");
+        finallyClearDb(runner);
         databaseUpdate(runner, "insert into duck values (${duckId}, 'green', 1.1, 'rubber', 'quack', 'FIXED')");
 
         //  летаем
-        flyDuck(runner, "${duckId}");
+        requestFlyDuck(runner, "${duckId}");
 
         //  проверяем ответ
         validateResponseByJson(runner, 200, "test_responses/flyTest/flyFixedDuckResponse.json");
@@ -48,11 +48,11 @@ public class FlyTests extends DuckActionsClient {
     public void flyUndefinedDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  создаем утку + очитска бд в конце теста
         runner.variable("duckId", "citrus:randomNumber(4, false)");
-        clearDB(runner, "${duckId}");
+        finallyClearDb(runner);
         databaseUpdate(runner, "insert into duck values (${duckId}, 'green', 1.1, 'rubber', 'quack', 'UNDEFINED')");
 
         //  летаем
-        flyDuck(runner, "${duckId}");
+        requestFlyDuck(runner, "${duckId}");
 
         //  проверяем ответ
         validateResponseByJson(runner, 200, "test_responses/flyTest/flyUndefinedDuckResponse.json");

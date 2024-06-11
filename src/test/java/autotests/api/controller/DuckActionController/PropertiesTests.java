@@ -20,11 +20,11 @@ public class PropertiesTests extends DuckActionsClient {
     public void getEvenWoodenDuckPropsTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  создаем утку с четным id + очитска бд в конце теста
         runner.variable("duckId", "citrus:randomNumber(4, false)1");
-        clearDB(runner, "${duckId}");
+        finallyClearDb(runner);
         databaseUpdate(runner, "insert into duck values (${duckId}, 'green', 1.1, 'wood', 'quack', 'ACTIVE')");
 
         //  получаем ее свойства
-        getDuckProps(runner, "${duckId}");
+        requestDuckProps(runner, "${duckId}");
 
         //  проверяем ответ
         validateResponseByClass(runner, 200, new Duck().color("green").height(1.1).material("wood").sound("quack").wingsState(WingsState.ACTIVE));
@@ -35,11 +35,11 @@ public class PropertiesTests extends DuckActionsClient {
     public void getOddRubberDuckPropsTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  создаем утку с нечетным id + очитска бд в конце теста
         runner.variable("duckId", "citrus:randomNumber(4, false)2");
-        clearDB(runner, "${duckId}");
+        finallyClearDb(runner);
         databaseUpdate(runner, "insert into duck values (${duckId}, 'green', 1.1, 'rubber', 'quack', 'ACTIVE')");
 
         //  получаем ее свойства
-        getDuckProps(runner, "${duckId}");
+        requestDuckProps(runner, "${duckId}");
 
         //  проверяем ответ
         validateResponseByClass(runner, 200, new Duck().color("green").height(1.1).material("rubber").sound("quack").wingsState(WingsState.ACTIVE));

@@ -20,7 +20,7 @@ public class UpdateDuckTests extends DuckActionsClient {
     public void updateColorAndHeightDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  создаем утку + очитска бд в конце теста
         runner.variable("duckId", "citrus:randomNumber(4, false)");
-        clearDB(runner, "${duckId}");
+        finallyClearDb(runner);
         databaseUpdate(runner, "insert into duck values (${duckId}, 'green', 1.1, 'rubber', 'quack', 'ACTIVE')");
 
         //  обновляем 2 поля
@@ -32,7 +32,7 @@ public class UpdateDuckTests extends DuckActionsClient {
                 "}");
 
         //  проверяем в бд
-        databaseValidateDuck(runner, "${duckId}", "rainbow", 9.9, "rubber", "quack", WingsState.ACTIVE);
+        validateDatabaseDuck(runner, "${duckId}", "rainbow", 9.9, "rubber", "quack", WingsState.ACTIVE);
     }
 
     @Test(description = "Проверка обновления цвета и звука утки")
@@ -40,7 +40,7 @@ public class UpdateDuckTests extends DuckActionsClient {
     public void updateColorAndSoundDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  создаем утку + очитска бд в конце теста
         runner.variable("duckId", "citrus:randomNumber(4, false)");
-        clearDB(runner, "${duckId}");
+        finallyClearDb(runner);
         databaseUpdate(runner, "insert into duck values (${duckId}, 'green', 1.1, 'rubber', 'quack', 'ACTIVE')");
 
         //  обновляем 2 поля
@@ -52,7 +52,7 @@ public class UpdateDuckTests extends DuckActionsClient {
                 "}");
 
         //  проверяем в бд
-        databaseValidateDuck(runner, "${duckId}", "rainbow", 1.1, "rubber", "mew", WingsState.ACTIVE);
+        validateDatabaseDuck(runner, "${duckId}", "rainbow", 1.1, "rubber", "mew", WingsState.ACTIVE);
     }
 
 }
