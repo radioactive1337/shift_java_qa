@@ -93,7 +93,7 @@ public class DuckActionsClient extends BaseTest {
         writeIdFromDbToVariable(runner, sql, "id", "duckId");
     }
 
-    @Step("очистка бд")
+    @Step("финальная очистка бд")
     public void finallyClearDb(TestCaseRunner runner) {
         finallyExecuteSqlQuery(runner, "delete from duck where id=${duckId}");
     }

@@ -6,6 +6,7 @@ import com.consol.citrus.TestCaseRunner;
 import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
 import com.consol.citrus.testng.CitrusParameters;
+import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import org.testng.annotations.DataProvider;
@@ -28,7 +29,7 @@ public class CreateDuckTests extends DuckActionsClient {
         };
     }
 
-    @Test(description = "Проверка создания утки с material = rubber", dataProvider = "duckData")
+    @Test(description = "Проверка создания утки", dataProvider = "duckData")
     @CitrusTest
     @CitrusParameters({"color", "height", "material", "sound", "wingsState", "runner"})
     public void createRubberDuckTest(String color, double height, String material, String sound, WingsState wingsState, @Optional @CitrusResource TestCaseRunner runner) {

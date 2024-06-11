@@ -121,7 +121,7 @@ public class BaseTest extends TestNGCitrusSpringSupport {
         );
     }
 
-    @Step("финальная очистка бд")
+    @Step("финальный запрос к бд")
     protected void finallyExecuteSqlQuery(TestCaseRunner runner, String sql) {
         runner.$(
                 doFinally()
