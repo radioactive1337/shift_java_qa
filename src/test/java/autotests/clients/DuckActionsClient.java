@@ -11,6 +11,8 @@ import org.springframework.test.context.ContextConfiguration;
 
 import java.util.Map;
 
+import static com.consol.citrus.actions.ExecuteSQLQueryAction.Builder.query;
+
 @ContextConfiguration(classes = {EndpointConfig.class})
 public class DuckActionsClient extends BaseTest {
 
@@ -79,13 +81,17 @@ public class DuckActionsClient extends BaseTest {
         executeSqlQuery(runner, sqlQuery);
     }
 
-    @Step("валидация данных утки в БД")
-    public void validateDatabaseDuck(TestCaseRunner runner, String id, String color, double height, String material, String sound, WingsState wingsState) {
-        validateDatabaseQuery(runner, "select * from duck where id = " + id, "COLOR", color);
-        validateDatabaseQuery(runner, "select * from duck where id = " + id, "HEIGHT", String.valueOf(height));
-        validateDatabaseQuery(runner, "select * from duck where id = " + id, "MATERIAL", material);
-        validateDatabaseQuery(runner, "select * from duck where id = " + id, "SOUND", sound);
-        validateDatabaseQuery(runner, "select * from duck where id = " + id, "WINGS_STATE", wingsState.toString());
+    @Step("валидация данных утки в бд")
+    protected void validateDatabaseDuck(TestCaseRunner runner, String id, String color, double height, String material, String sound, WingsState wingsState) {
+        runner.$(
+                query(db)
+                        .statement("select * from duck where id = " + id)
+                        .validate("COLOR", color)
+                        .validate("HEIGHT", String.valueOf(height))
+                        .validate("MATERIAL", material)
+                        .validate("SOUND", sound)
+                        .validate("WINGS_STATE", wingsState.toString())
+        );
     }
 
     @Step("получение и запись id в переменную из бд")

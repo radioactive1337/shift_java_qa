@@ -90,19 +90,6 @@ public class BaseTest extends TestNGCitrusSpringSupport {
         );
     }
 
-//    @Step("валидация данных утки в бд")
-//    protected void validateDatabaseDuck(TestCaseRunner runner, String id, String color, double height, String material, String sound, WingsState wingsState) {
-//        runner.$(
-//                query(db)
-//                        .statement("select * from duck where id = " + id)
-//                        .validate("COLOR", color)
-//                        .validate("HEIGHT", String.valueOf(height))
-//                        .validate("MATERIAL", material)
-//                        .validate("SOUND", sound)
-//                        .validate("WINGS_STATE", wingsState.toString())
-//        );
-//    }
-
     @Step("валидация запроса к бд (одно поле, одно значение)")
     protected void validateDatabaseQuery(TestCaseRunner runner, String sql, String column, String value) {
         runner.$(
