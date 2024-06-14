@@ -8,6 +8,7 @@ import com.consol.citrus.annotations.CitrusTest;
 import com.consol.citrus.testng.CitrusParameters;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
+import org.springframework.http.HttpStatus;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
@@ -40,7 +41,7 @@ public class CreateDuckTests extends DuckActionsClient {
         finallyClearDb(runner);
 
         //  проверяем ответ
-        validateResponseByClass(runner, 200, duck.id("@isNumber()@"));
+        validateResponseByClass(runner, HttpStatus.OK, duck.id("@isNumber()@"));
 
         //  проверяем в бд
         validateDatabaseDuck(runner, "${duckId}", color, height, material, sound, wingsState);

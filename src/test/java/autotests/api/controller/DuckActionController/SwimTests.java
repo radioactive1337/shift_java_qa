@@ -6,6 +6,7 @@ import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
+import org.springframework.http.HttpStatus;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 
@@ -24,7 +25,7 @@ public class SwimTests extends DuckActionsClient {
         requestSwimDuck(runner, "${duckId}");
 
         //  проверяем ответ
-        validateResponseByJson(runner, 200, "test_responses/swimTest/swimExistedDuckResponse.json");
+        validateResponseByJson(runner, HttpStatus.OK, "test_responses/swimTest/swimExistedDuckResponse.json");
     }
 
     @Test(description = "Проверка swim с несуществующим id")
@@ -34,7 +35,7 @@ public class SwimTests extends DuckActionsClient {
         requestSwimDuck(runner, "1234567");
 
         //  проверяем ответ
-        validateResponseByJson(runner, 404, "test_responses/swimTest/swimNotExistedDuckResponse.json");
+        validateResponseByJson(runner, HttpStatus.NOT_FOUND, "test_responses/swimTest/swimNotExistedDuckResponse.json");
     }
 
 }

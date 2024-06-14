@@ -6,6 +6,7 @@ import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
+import org.springframework.http.HttpStatus;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 import autotests.clients.DuckActionsClient;
@@ -27,7 +28,7 @@ public class UpdateDuckTests extends DuckActionsClient {
         requestUpdateDuck(runner, "rainbow", 9.9, "${duckId}", "rubber", "quack", WingsState.ACTIVE);
 
         // проверяем ответ
-        validateResponseByString(runner, 200, "{\n" +
+        validateResponseByString(runner, HttpStatus.OK, "{\n" +
                 "  \"message\": \"Duck with id = ${duckId} is updated\"\n" +
                 "}");
 
@@ -47,7 +48,7 @@ public class UpdateDuckTests extends DuckActionsClient {
         requestUpdateDuck(runner, "rainbow", 1.1, "${duckId}", "rubber", "mew", WingsState.ACTIVE);
 
         //  проверяем ответ
-        validateResponseByString(runner, 200, "{\n" +
+        validateResponseByString(runner, HttpStatus.OK, "{\n" +
                 "  \"message\": \"Duck with id = ${duckId} is updated\"\n" +
                 "}");
 

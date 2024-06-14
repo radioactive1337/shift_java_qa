@@ -6,6 +6,7 @@ import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
+import org.springframework.http.HttpStatus;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 
@@ -25,7 +26,7 @@ public class FlyTests extends DuckActionsClient {
         requestFlyDuck(runner, "${duckId}");
 
         //  проверяем ответ
-        validateResponseByJson(runner, 200, "test_responses/flyTest/flyActiveDuckResponse.json");
+        validateResponseByJson(runner, HttpStatus.OK, "test_responses/flyTest/flyActiveDuckResponse.json");
     }
 
     @Test(description = "Проверка fly с существующим id со связанными крыльями")
@@ -40,7 +41,7 @@ public class FlyTests extends DuckActionsClient {
         requestFlyDuck(runner, "${duckId}");
 
         //  проверяем ответ
-        validateResponseByJson(runner, 200, "test_responses/flyTest/flyFixedDuckResponse.json");
+        validateResponseByJson(runner, HttpStatus.OK, "test_responses/flyTest/flyFixedDuckResponse.json");
     }
 
     @Test(description = "Проверка fly с существующим id с крыльями в неопределенном состоянии")
@@ -55,7 +56,7 @@ public class FlyTests extends DuckActionsClient {
         requestFlyDuck(runner, "${duckId}");
 
         //  проверяем ответ
-        validateResponseByJson(runner, 200, "test_responses/flyTest/flyUndefinedDuckResponse.json");
+        validateResponseByJson(runner, HttpStatus.OK, "test_responses/flyTest/flyUndefinedDuckResponse.json");
     }
 
 }

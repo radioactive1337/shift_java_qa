@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.qameta.allure.Step;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.datasource.SingleConnectionDataSource;
 import org.springframework.test.context.ContextConfiguration;
@@ -21,6 +22,9 @@ import static com.consol.citrus.http.actions.HttpActionBuilder.http;
 
 @ContextConfiguration(classes = {EndpointConfig.class})
 public class BaseTest extends TestNGCitrusSpringSupport {
+
+    @Autowired
+    protected HttpClient yellowDuckService;
 
     @Autowired
     protected SingleConnectionDataSource db;
@@ -120,39 +124,36 @@ public class BaseTest extends TestNGCitrusSpringSupport {
     }
 
     @Step("валидация ответа с помощью строки")
-    protected void validateResponseByString(TestCaseRunner runner, int statusCode, String expectedString, HttpClient url) {
+    protected void validateResponseByString(TestCaseRunner runner, HttpStatus httpStatus, String expectedString, HttpClient url) {
         runner.$(http()
                 .client(url)
                 .receive()
-                .response()
+                .response(httpStatus)
                 .message()
-                .statusCode(statusCode)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(expectedString)
         );
     }
 
     @Step("валидация ответа с помощью json файла")
-    protected void validateResponseByJson(TestCaseRunner runner, int statusCode, String expectedPayload, HttpClient url) {
+    protected void validateResponseByJson(TestCaseRunner runner, HttpStatus httpStatus, String expectedPayload, HttpClient url) {
         runner.$(http()
                 .client(url)
                 .receive()
-                .response()
+                .response(httpStatus)
                 .message()
-                .statusCode(statusCode)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(new ClassPathResource(expectedPayload))
         );
     }
 
     @Step("валидация ответа с помощью класса")
-    protected void validateResponseByClass(TestCaseRunner runner, int statusCode, Object expectedPayload, HttpClient url) {
+    protected void validateResponseByClass(TestCaseRunner runner, HttpStatus httpStatus, Object expectedPayload, HttpClient url) {
         runner.$(http()
                 .client(url)
                 .receive()
-                .response()
+                .response(httpStatus)
                 .message()
-                .statusCode(statusCode)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(new ObjectMappingPayloadBuilder(expectedPayload, objectMapper))
         );

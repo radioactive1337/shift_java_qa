@@ -1,23 +1,16 @@
 package autotests.clients;
 
 import autotests.BaseTest;
-import autotests.EndpointConfig;
 import autotests.payloads.WingsState;
 import com.consol.citrus.TestCaseRunner;
-import com.consol.citrus.http.client.HttpClient;
 import io.qameta.allure.Step;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.http.HttpStatus;
 
 import java.util.Map;
 
 import static com.consol.citrus.actions.ExecuteSQLQueryAction.Builder.query;
 
-@ContextConfiguration(classes = {EndpointConfig.class})
 public class DuckActionsClient extends BaseTest {
-
-    @Autowired
-    public HttpClient yellowDuckService;
 
     @Step("запрос на создание утки")
     protected void requestCreateDuck(TestCaseRunner runner, Object duckProps) {
@@ -105,18 +98,18 @@ public class DuckActionsClient extends BaseTest {
     }
 
     @Step("валидация ответа с помощью строки")
-    public void validateResponseByString(TestCaseRunner runner, int statusCode, String expectedString) {
-        validateResponseByString(runner, statusCode, expectedString, yellowDuckService);
+    public void validateResponseByString(TestCaseRunner runner, HttpStatus httpStatus, String expectedString) {
+        validateResponseByString(runner, httpStatus, expectedString, yellowDuckService);
     }
 
     @Step("валидация ответа с помощью json файла")
-    public void validateResponseByJson(TestCaseRunner runner, int statusCode, String expectedPayload) {
-        validateResponseByJson(runner, statusCode, expectedPayload, yellowDuckService);
+    public void validateResponseByJson(TestCaseRunner runner, HttpStatus httpStatus, String expectedPayload) {
+        validateResponseByJson(runner, httpStatus, expectedPayload, yellowDuckService);
     }
 
     @Step("валидация ответа с помощью класса")
-    public void validateResponseByClass(TestCaseRunner runner, int statusCode, Object expectedPayload) {
-        validateResponseByClass(runner, statusCode, expectedPayload, yellowDuckService);
+    public void validateResponseByClass(TestCaseRunner runner, HttpStatus httpStatus, Object expectedPayload) {
+        validateResponseByClass(runner, httpStatus, expectedPayload, yellowDuckService);
     }
 
 }
