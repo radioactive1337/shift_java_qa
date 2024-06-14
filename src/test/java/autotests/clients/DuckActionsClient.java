@@ -36,7 +36,7 @@ public class DuckActionsClient extends BaseTest {
     }
 
     @Step("запрос на полет утки")
-    public void requestFlyDuck(TestCaseRunner runner, String id) {
+    protected void requestFlyDuck(TestCaseRunner runner, String id) {
         Map<String, String> queryParams = Map.of(
                 "id", id
         );
@@ -44,7 +44,7 @@ public class DuckActionsClient extends BaseTest {
     }
 
     @Step("запрос на плавание утки")
-    public void requestSwimDuck(TestCaseRunner runner, String id) {
+    protected void requestSwimDuck(TestCaseRunner runner, String id) {
         Map<String, String> queryParams = Map.of(
                 "id", id
         );
@@ -52,7 +52,7 @@ public class DuckActionsClient extends BaseTest {
     }
 
     @Step("запрос на получение свойств утки")
-    public void requestDuckProps(TestCaseRunner runner, String id) {
+    protected void requestDuckProps(TestCaseRunner runner, String id) {
         Map<String, String> queryParams = Map.of(
                 "id", id
         );
@@ -60,7 +60,7 @@ public class DuckActionsClient extends BaseTest {
     }
 
     @Step("запрос на кряканье")
-    public void requestQuackDuck(TestCaseRunner runner, String id, String repetitionCount, String soundCount) {
+    protected void requestQuackDuck(TestCaseRunner runner, String id, String repetitionCount, String soundCount) {
         Map<String, String> queryParams = Map.of(
                 "id", id,
                 "repetitionCount", repetitionCount,
@@ -69,8 +69,8 @@ public class DuckActionsClient extends BaseTest {
         sendGetRequest(runner, yellowDuckService, "/api/duck/action/quack", queryParams);
     }
 
-    @Step("изменение даныых в бд")
-    public void databaseUpdate(TestCaseRunner runner, String sqlQuery) {
+    @Step("обновление данных в бд")
+    protected void databaseUpdate(TestCaseRunner runner, String sqlQuery) {
         executeSqlQuery(runner, sqlQuery);
     }
 
@@ -87,28 +87,28 @@ public class DuckActionsClient extends BaseTest {
         );
     }
 
-    @Step("получение и запись id в переменную из бд")
-    public void writeIdFromDb(TestCaseRunner runner, String sql) {
+    @Step("получение и запись id в переменную ${duckId} из бд")
+    protected void writeIdFromDb(TestCaseRunner runner, String sql) {
         writeIdFromDbToVariable(runner, sql, "id", "duckId");
     }
 
     @Step("финальная очистка бд")
-    public void finallyClearDb(TestCaseRunner runner) {
+    protected void finallyClearDb(TestCaseRunner runner) {
         finallyExecuteSqlQuery(runner, "delete from duck where id=${duckId}");
     }
 
     @Step("валидация ответа с помощью строки")
-    public void validateResponseByString(TestCaseRunner runner, HttpStatus httpStatus, String expectedString) {
+    protected void validateResponseByString(TestCaseRunner runner, HttpStatus httpStatus, String expectedString) {
         validateResponseByString(runner, httpStatus, expectedString, yellowDuckService);
     }
 
     @Step("валидация ответа с помощью json файла")
-    public void validateResponseByJson(TestCaseRunner runner, HttpStatus httpStatus, String expectedPayload) {
+    protected void validateResponseByJson(TestCaseRunner runner, HttpStatus httpStatus, String expectedPayload) {
         validateResponseByJson(runner, httpStatus, expectedPayload, yellowDuckService);
     }
 
     @Step("валидация ответа с помощью класса")
-    public void validateResponseByClass(TestCaseRunner runner, HttpStatus httpStatus, Object expectedPayload) {
+    protected void validateResponseByClass(TestCaseRunner runner, HttpStatus httpStatus, Object expectedPayload) {
         validateResponseByClass(runner, httpStatus, expectedPayload, yellowDuckService);
     }
 
