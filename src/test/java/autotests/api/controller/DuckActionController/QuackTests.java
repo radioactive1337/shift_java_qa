@@ -40,12 +40,10 @@ public class QuackTests extends DuckActionsClient {
         databaseUpdate(runner, "insert into duck values (${duckId}, 'green', 1.1, 'rubber', 'quack', 'ACTIVE')");
 
         //  крякаем
-        requestQuackDuck(runner, "${duckId}", "1", "1");
+        requestQuackDuck(runner, "${duckId}", "2", "3");
 
         //  проверка ответа
-        validateResponseByString(runner, HttpStatus.OK, "{\n" +
-                "  \"sound\": \"quack\"\n" +
-                "}");
+        validateResponseByString(runner, HttpStatus.OK, "{\"sound\":\"quack-quack-quack, quack-quack-quack\"}");
     }
 
 }
