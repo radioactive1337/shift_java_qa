@@ -6,6 +6,7 @@ import com.consol.citrus.annotations.CitrusResource;
 import com.consol.citrus.annotations.CitrusTest;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
+import org.springframework.http.HttpStatus;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Test;
 
@@ -14,22 +15,22 @@ import org.testng.annotations.Test;
 @Feature("/api/duck/delete")
 public class DeleteDuckTests extends DuckActionsClient {
 
-    @Test(description = "Проверка удаления утки")
+    @Test(description = "РџСЂРѕРІРµСЂРєР° СѓРґР°Р»РµРЅРёСЏ СѓС‚РєРё")
     @CitrusTest
     public void deleteDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
-        //  создаем утку + очитска бд в конце теста
+        //  СЃРѕР·РґР°РµРј СѓС‚РєСѓ + РѕС‡РёС‚СЃРєР° Р±Рґ РІ РєРѕРЅС†Рµ С‚РµСЃС‚Р°
         runner.variable("duckId", "citrus:randomNumber(4, false)");
-        clearDB(runner, "${duckId}");
+        finallyClearDb(runner);
         databaseUpdate(runner, "insert into duck values (${duckId}, 'red', 1.1, 'wood', 'quack', 'ACTIVE')");
 
-        //  запрос на удаление утки
-        deleteDuck(runner, "${duckId}");
+        //  Р·Р°РїСЂРѕСЃ РЅР° СѓРґР°Р»РµРЅРёРµ СѓС‚РєРё
+        requestDeleteDuck(runner);
 
-        //  проверяем ответ
-        validateResponseByJson(runner, 200, "test_responses/deleteDuckTest/deleteDuckResponse.json");
+        //  РїСЂРѕРІРµСЂСЏРµРј РѕС‚РІРµС‚
+        validateResponseByJson(runner, HttpStatus.OK, "test_responses/deleteDuckTest/deleteDuckResponse.json");
 
-        //  проверяем бд
-        databaseQueryAndValidate(runner, "select count(*) as ducks_count from duck where id = ${duckId}", "ducks_count", "0");
+        //  РїСЂРѕРІРµСЂСЏРµРј Р±Рґ
+        validateDatabaseQuery(runner, "select count(*) as ducks_count from duck where id = ${duckId}", "ducks_count", "0");
     }
 
 }
