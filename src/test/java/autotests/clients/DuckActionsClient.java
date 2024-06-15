@@ -18,13 +18,12 @@ public class DuckActionsClient extends BaseTest {
     }
 
     @Step("запрос на обновление утки")
-    protected void requestUpdateDuck(TestCaseRunner runner, String color, double height, String id, String material, String sound, WingsState wingsState) {
+    protected void requestUpdateDuck(TestCaseRunner runner, String color, double height, String id, String material, WingsState wingsState) {
         Map<String, String> queryParams = Map.of(
                 "color", color,
                 "height", String.valueOf(height),
                 "id", id,
                 "material", material,
-                "sound", sound,
                 "wingsState", wingsState.toString()
         );
         sendPutRequest(runner, yellowDuckService, "/api/duck/update", queryParams);

@@ -25,7 +25,7 @@ public class UpdateDuckTests extends DuckActionsClient {
         databaseUpdate(runner, "insert into duck values (${duckId}, 'green', 1.1, 'rubber', 'quack', 'ACTIVE')");
 
         //  обновляем 2 поля
-        requestUpdateDuck(runner, "rainbow", 9.9, "${duckId}", "rubber", "quack", WingsState.ACTIVE);
+        requestUpdateDuck(runner, "rainbow", 9.9, "${duckId}", "rubber", WingsState.ACTIVE);
 
         // проверяем ответ
         validateResponseByString(runner, HttpStatus.OK, "{\n" +
@@ -45,7 +45,7 @@ public class UpdateDuckTests extends DuckActionsClient {
         databaseUpdate(runner, "insert into duck values (${duckId}, 'green', 1.1, 'rubber', 'quack', 'ACTIVE')");
 
         //  обновляем 2 поля
-        requestUpdateDuck(runner, "rainbow", 1.1, "${duckId}", "rubber", "mew", WingsState.ACTIVE);
+        requestUpdateDuck(runner, "rainbow", 1.1, "${duckId}", "rubber", WingsState.ACTIVE);
 
         //  проверяем ответ
         validateResponseByString(runner, HttpStatus.OK, "{\n" +
@@ -53,7 +53,7 @@ public class UpdateDuckTests extends DuckActionsClient {
                 "}");
 
         //  проверяем в бд
-        validateDatabaseDuck(runner, "${duckId}", "rainbow", 1.1, "rubber", "mew", WingsState.ACTIVE);
+        validateDatabaseDuck(runner, "${duckId}", "rainbow", 1.1, "rubber", "quack", WingsState.ACTIVE);
     }
 
 }

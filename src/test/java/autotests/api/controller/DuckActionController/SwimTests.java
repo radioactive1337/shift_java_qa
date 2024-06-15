@@ -32,6 +32,7 @@ public class SwimTests extends DuckActionsClient {
     @CitrusTest
     public void swimNotExistedDuckTest(@Optional @CitrusResource TestCaseRunner runner) {
         //  плаваем
+        runner.variable("duckId", "1234567");
         requestSwimDuck(runner, "1234567");
 
         //  проверяем ответ

@@ -27,7 +27,7 @@ public class QuackTests extends DuckActionsClient {
 
         //  проверка ответа
         validateResponseByString(runner, HttpStatus.OK, "{\n" +
-                "  \"sound\": \"quack\"\n" +
+                "  \"duckSpeech\": \"quack\"\n" +
                 "}");
     }
 
@@ -43,7 +43,7 @@ public class QuackTests extends DuckActionsClient {
         requestQuackDuck(runner, "${duckId}", "2", "3");
 
         //  проверка ответа
-        validateResponseByString(runner, HttpStatus.OK, "{\"sound\":\"quack-quack-quack, quack-quack-quack\"}");
+        validateResponseByString(runner, HttpStatus.OK, "{\"duckSpeech\":\"quack-quack-quack, quack-quack-quack\"}");
     }
 
 }

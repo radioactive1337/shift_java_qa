@@ -27,7 +27,9 @@ public class DeleteDuckTests extends DuckActionsClient {
         requestDeleteDuck(runner);
 
         //  проверяем ответ
-        validateResponseByJson(runner, HttpStatus.OK, "test_responses/deleteDuckTest/deleteDuckResponse.json");
+        validateResponseByString(runner, HttpStatus.OK, "{\n" +
+                "  \"message\": \"Duck with id = ${duckId} is deleted\"\n" +
+                "}");
 
         //  проверяем бд
         validateDatabaseQuery(runner, "select count(*) as ducks_count from duck where id = ${duckId}", "ducks_count", "0");

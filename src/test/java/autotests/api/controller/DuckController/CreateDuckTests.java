@@ -21,19 +21,19 @@ public class CreateDuckTests extends DuckActionsClient {
     @DataProvider(name = "duckData")
     public Object[][] duckData() {
         return new Object[][]{
-                {"green", 1.12, "rubber", "quack", WingsState.ACTIVE, null},
-                {"blue", 2.34, "plastic", "krya", WingsState.FIXED, null},
-                {"red", 3.45, "wood", "privet", WingsState.ACTIVE, null},
-                {"yellow", 4.56, "metal", "hello", WingsState.UNDEFINED, null},
-                {"purple", 5.67, "fabric", "hola", WingsState.ACTIVE, null}
+                {"green", 1.12, "rubber", WingsState.ACTIVE, null},
+                {"blue", 2.34, "plastic", WingsState.FIXED, null},
+                {"red", 3.45, "wood", WingsState.ACTIVE, null},
+                {"yellow", 4.56, "metal", WingsState.UNDEFINED, null},
+                {"purple", 5.67, "fabric", WingsState.ACTIVE, null}
         };
     }
 
     @Test(description = "Проверка создания утки", dataProvider = "duckData")
     @CitrusTest
-    @CitrusParameters({"color", "height", "material", "sound", "wingsState", "runner"})
-    public void createRubberDuckTest(String color, double height, String material, String sound, WingsState wingsState, @Optional @CitrusResource TestCaseRunner runner) {
-        Duck duck = new Duck().color(color).height(height).material(material).sound(sound).wingsState(wingsState);
+    @CitrusParameters({"color", "height", "material", "wingsState", "runner"})
+    public void createRubberDuckTest(String color, double height, String material, WingsState wingsState, @Optional @CitrusResource TestCaseRunner runner) {
+        Duck duck = new Duck().color(color).height(height).material(material).wingsState(wingsState);
 
         //  запрос на создание утки + очистка бд после теста
         requestCreateDuck(runner, duck);
@@ -41,10 +41,10 @@ public class CreateDuckTests extends DuckActionsClient {
         finallyClearDb(runner);
 
         //  проверяем ответ
-        validateResponseByClass(runner, HttpStatus.OK, duck.id("@isNumber()@"));
+        validateResponseByClass(runner, HttpStatus.OK, duck.id("@isNumber()@").sound("quack"));
 
         //  проверяем в бд
-        validateDatabaseDuck(runner, "${duckId}", color, height, material, sound, wingsState);
+        validateDatabaseDuck(runner, "${duckId}", color, height, material, "quack", wingsState);
     }
 
 }
